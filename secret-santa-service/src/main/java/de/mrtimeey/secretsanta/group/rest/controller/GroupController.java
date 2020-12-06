@@ -1,13 +1,14 @@
 package de.mrtimeey.secretsanta.group.rest.controller;
 
-import de.mrtimeey.secretsanta.group.rest.service.GroupRestService;
 import de.mrtimeey.secretsanta.group.rest.request.CreateGroupRequest;
 import de.mrtimeey.secretsanta.group.rest.response.SecretSantaGroupTO;
+import de.mrtimeey.secretsanta.group.rest.service.GroupRestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -42,4 +41,8 @@ public class GroupController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @DeleteMapping(value = "/{groupId}")
+    public void deleteGroup(@PathVariable String groupId) {
+        groupRestService.delete(groupId);
+    }
 }

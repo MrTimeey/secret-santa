@@ -52,4 +52,16 @@ public class GroupRestService {
     public boolean groupExisting(String groupId) {
         return groupService.getGroup(groupId).isPresent();
     }
+
+    public void delete(String groupId) {
+        groupService.getGroup(groupId)
+                .map(g -> deleteParticipantsInGroup(groupId, g))
+                .ifPresent(groupService::delete);
+    }
+
+    private SecretSantaGroup deleteParticipantsInGroup(String groupId, SecretSantaGroup secretSantaGroup) {
+        personService.getParticipants(groupId)
+                .forEach(personService::delete);
+        return secretSantaGroup;
+    }
 }

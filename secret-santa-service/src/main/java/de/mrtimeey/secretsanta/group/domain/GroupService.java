@@ -21,4 +21,8 @@ public class GroupService {
     public Optional<SecretSantaGroup> getGroup(String groupId) {
         return groupRepository.findById(groupId);
     }
+
+    public void delete(SecretSantaGroup group) {
+        groupRepository.delete(group);
+    }
 }

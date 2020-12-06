@@ -14,6 +14,10 @@ public class PersonService {
 
     private final PersonRepository personRepository;
 
+    public void delete(Person person) {
+        personRepository.delete(person);
+    }
+
     public Person save(Person person) {
         return personRepository.save(person);
     }
