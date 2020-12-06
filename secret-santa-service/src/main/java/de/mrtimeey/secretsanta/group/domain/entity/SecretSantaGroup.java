@@ -1,4 +1,4 @@
-package de.mrtimeey.secretsanta.group.domain;
+package de.mrtimeey.secretsanta.group.domain.entity;
 
 import lombok.Builder;
 import lombok.Data;

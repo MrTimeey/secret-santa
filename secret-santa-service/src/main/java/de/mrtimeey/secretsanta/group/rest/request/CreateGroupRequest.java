@@ -1,4 +1,4 @@
-package de.mrtimeey.secretsanta.group.rest;
+package de.mrtimeey.secretsanta.group.rest.request;
 
 import lombok.Data;
 
