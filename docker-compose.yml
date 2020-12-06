@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+
+  mongo-database:
+    build: ./mongoDB
+    ports:
+      - 27017:27017
+    restart: always
+    env_file: 
+      - ./dev.env
+    volumes:
+      - "mongo-data:/data/db"
+
+  secret-santa-service:
+    build: secret-santa-service
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongo-database
+    restart: always
+    env_file: 
+      - ./dev.env
+    environment:
+      - SPRING_DATA_MONGODB_HOST=mongo-database
+      - SPRING_DATA_MONGODB_USERNAME=mongouser
+      - SPRING_DATA_MONGODB_PASSWORD=$MONGODB_PASSWORD
+      - SPRING_DATA_MONGODB_DATABASE=secret_santa
+
+volumes:
+  mongo-data:
+    driver: local

@@ -1,0 +1,7 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      username: mongouser
+      password: ${MONGODB_PASSWORD}
+      database: secret_santa
