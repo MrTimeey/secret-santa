@@ -1,8 +1,10 @@
 package de.mrtimeey.secretsanta.group.rest.controller;
 
+import de.mrtimeey.secretsanta.group.domain.entity.Person;
+import de.mrtimeey.secretsanta.group.rest.request.OnCreate;
+import de.mrtimeey.secretsanta.group.rest.request.OnUpdate;
 import de.mrtimeey.secretsanta.group.rest.service.GroupRestService;
 import de.mrtimeey.secretsanta.group.rest.service.PersonRestService;
-import de.mrtimeey.secretsanta.group.rest.request.PersonRequest;
 import de.mrtimeey.secretsanta.group.rest.response.PersonTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,9 +14,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -30,11 +32,12 @@ public class PersonController {
     private final GroupRestService groupRestService;
 
     @PostMapping
-    public ResponseEntity<PersonTO> createPerson(@RequestBody @Valid PersonRequest personRequest) {
-        if (!groupRestService.groupExisting(personRequest.getSecretSantaGroup())) {
+    @Validated(OnCreate.class)
+    public ResponseEntity<PersonTO> createPerson(@RequestBody @Valid PersonTO personTO) {
+        if (!groupRestService.groupExisting(personTO.getSecretSantaGroupId())) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(personRestService.create(personRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(personRestService.create(personTO));
     }
 
     @GetMapping(value = "/{personId}")
@@ -42,5 +45,13 @@ public class PersonController {
         return personRestService.getPerson(personId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping
+    @Validated(OnUpdate.class)
+    public ResponseEntity<PersonTO> updatePerson(@RequestBody PersonTO personTO) {
+        return personRestService.updatePerson(personTO)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.badRequest().build());
     }
 }
