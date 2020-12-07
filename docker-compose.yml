@@ -26,6 +26,11 @@ services:
       - SPRING_DATA_MONGODB_USERNAME=mongouser
       - SPRING_DATA_MONGODB_PASSWORD=$MONGODB_PASSWORD
       - SPRING_DATA_MONGODB_DATABASE=secret_santa
+      
+  secret-santa-ui:
+    build: secret-santa-ui
+    ports:
+      - 8081:8081
 
 volumes:
   mongo-data:
