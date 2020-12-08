@@ -31,7 +31,8 @@ public class GroupController {
     @PostMapping
     @ResponseStatus( HttpStatus.CREATED )
     public SecretSantaGroupTO createGroup(@RequestBody @Valid CreateGroupRequest createGroupRequest) {
-        return groupRestService.createNewGroup(createGroupRequest);
+            return groupRestService.createNewGroup(createGroupRequest);
+
     }
 
     @GetMapping(value = "/{groupId}")
