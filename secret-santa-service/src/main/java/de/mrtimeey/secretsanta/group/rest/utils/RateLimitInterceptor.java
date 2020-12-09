@@ -3,6 +3,7 @@ package de.mrtimeey.secretsanta.group.rest.utils;
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
 import io.github.bucket4j.Bucket4j;
+import io.github.bucket4j.ConsumptionProbe;
 import io.github.bucket4j.Refill;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,9 +31,13 @@ public class RateLimitInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (bucket.tryConsume(1)) {
+        ConsumptionProbe probe = bucket.tryConsumeAndReturnRemaining(1);
+        if (probe.isConsumed()) {
+            response.addHeader("X-Rate-Limit-Remaining", String.valueOf(probe.getRemainingTokens()));
             return true;
         }
+        long waitForRefill = probe.getNanosToWaitForRefill() / 1_000_000_000;
+        response.addHeader("X-Rate-Limit-Retry-After-Seconds", String.valueOf(waitForRefill));
         response.sendError(HttpStatus.TOO_MANY_REQUESTS.value(), "You have exhausted your API Request Quota");
         return false;
     }
