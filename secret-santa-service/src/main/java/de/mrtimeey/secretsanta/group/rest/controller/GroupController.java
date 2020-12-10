@@ -4,6 +4,7 @@ import de.mrtimeey.secretsanta.group.rest.request.CreateGroupRequest;
 import de.mrtimeey.secretsanta.group.rest.response.SecretSantaGroupTO;
 import de.mrtimeey.secretsanta.group.rest.service.GroupRestService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -40,6 +42,11 @@ public class GroupController {
         return groupRestService.getGroup(groupId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping(value = "/{groupId}/shuffle")
+    public List<Pair<String, String>> shuffleGroup(@PathVariable String groupId) {
+        return groupRestService.getSecretSantaPairs(groupId);
     }
 
     @DeleteMapping(value = "/{groupId}")

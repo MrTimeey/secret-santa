@@ -25,4 +25,6 @@ public class GroupService {
     public void delete(SecretSantaGroup group) {
         groupRepository.delete(group);
     }
+
+
 }

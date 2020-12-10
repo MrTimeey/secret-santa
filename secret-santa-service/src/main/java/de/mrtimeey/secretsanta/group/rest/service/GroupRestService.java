@@ -9,6 +9,7 @@ import de.mrtimeey.secretsanta.group.rest.request.CreateGroupRequest;
 import de.mrtimeey.secretsanta.group.rest.response.PersonTO;
 import de.mrtimeey.secretsanta.group.rest.response.SecretSantaGroupTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,11 +26,18 @@ public class GroupRestService {
     private final GroupService groupService;
     private final PersonService personService;
 
+
     public SecretSantaGroupTO createNewGroup(CreateGroupRequest createGroupRequest) {
         SecretSantaGroup secretSantaGroup = groupService.createNewGroup(createGroupRequest.getTitle());
         SecretSantaGroupTO secretSantaGroupTO = SecretSantaGroupTO.fromBusinessModel(secretSantaGroup);
         secretSantaGroupTO.add(linkTo(methodOn(GroupController.class).getGroup(secretSantaGroupTO.getId())).withSelfRel());
         return secretSantaGroupTO;
+    }
+
+    public List<Pair<String, String>> getSecretSantaPairs(String groupId) {
+        return personService.getPairsForGroup(groupId).stream()
+                .map(pair -> Pair.of(pair.getFirst().getName(), pair.getSecond().getName()))
+                .collect(Collectors.toList());
     }
 
     public Optional<SecretSantaGroupTO> getGroup(String groupId) {
