@@ -12,14 +12,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
 public class PersonService {
 
     private final PersonRepository personRepository;
-    private final Random random = new Random();
 
     public void delete(Person person) {
         personRepository.delete(person);
@@ -37,15 +35,20 @@ public class PersonService {
         return personRepository.findAllBySecretSantaGroupId(groupId);
     }
 
-    public List<Pair<Person, Person>> getPairsForGroup(String groupId) {
+    public List<Pair<Person, Person>> getRandomPairsForGroup(String groupId) {
         List<Person> participants = this.getParticipants(groupId);
         if (participants.isEmpty() || participants.size() == 1) {
             return Lists.newArrayList();
         }
 
         List<Pair<Person, Person>> result = new ArrayList<>();
+        int counter = 0;
 
         while (result.isEmpty()) {
+            counter++;
+            if (counter == 50) {
+                throw new IllegalStateException("Can not build random pairs!");
+            }
             List<Person> targetPersonList = Lists.newArrayList(participants);
             for (Person participant : participants) {
                 Person randomPerson = getRandomPerson(targetPersonList, participant);
@@ -68,4 +71,5 @@ public class PersonService {
                 .findFirst()
                 .orElse(null);
     }
+
 }

@@ -35,7 +35,7 @@ public class GroupRestService {
     }
 
     public List<Pair<String, String>> getSecretSantaPairs(String groupId) {
-        return personService.getPairsForGroup(groupId).stream()
+        return personService.getRandomPairsForGroup(groupId).stream()
                 .map(pair -> Pair.of(pair.getFirst().getName(), pair.getSecond().getName()))
                 .collect(Collectors.toList());
     }
