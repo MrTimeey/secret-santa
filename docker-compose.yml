@@ -26,6 +26,7 @@ services:
       - SPRING_DATA_MONGODB_USERNAME=mongouser
       - SPRING_DATA_MONGODB_PASSWORD=$MONGODB_PASSWORD
       - SPRING_DATA_MONGODB_DATABASE=secret_santa
+      - MRTIMEEY_MAIL_PASSWORD=§MAIL_PASSWORD
       
   secret-santa-ui:
     build: secret-santa-ui

@@ -5,3 +5,6 @@ spring:
       username: mongouser
       password: ${MONGODB_PASSWORD}
       database: secret_santa
+mrtimmey:
+  mail:
+    password: ${MAIL_PASSWORD}
