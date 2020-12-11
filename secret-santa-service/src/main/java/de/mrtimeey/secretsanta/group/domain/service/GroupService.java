@@ -15,6 +15,10 @@ public class GroupService {
 
     public SecretSantaGroup createNewGroup(String title) {
         SecretSantaGroup secretSantaGroup = SecretSantaGroup.builder().title(title).build();
+        return this.saveGroup(secretSantaGroup);
+    }
+
+    public SecretSantaGroup saveGroup(SecretSantaGroup secretSantaGroup) {
         return groupRepository.save(secretSantaGroup);
     }
 

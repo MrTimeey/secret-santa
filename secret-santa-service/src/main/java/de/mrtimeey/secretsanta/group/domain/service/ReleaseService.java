@@ -24,5 +24,7 @@ public class ReleaseService {
                 .map(p -> Pair.of(p, personService.findById(p.getTargetPerson()).orElseThrow(IllegalStateException::new)))
                 .collect(Collectors.toList());
         pairs.forEach(p -> secretSantaMailService.send(secretSantaGroup, p.getFirst(), p.getSecond()));
+        secretSantaGroup.setReleased(true);
+        groupService.saveGroup(secretSantaGroup);
     }
 }

@@ -16,6 +16,8 @@ public class SecretSantaGroupTO extends RepresentationModel<SecretSantaGroupTO> 
 
     private String title;
 
+    private boolean released;
+
     @Builder.Default
     private List<PersonTO> participants = new ArrayList<>();
 
@@ -23,6 +25,7 @@ public class SecretSantaGroupTO extends RepresentationModel<SecretSantaGroupTO> 
         return SecretSantaGroupTO.builder()
                 .id(secretSantaGroup.getId())
                 .title(secretSantaGroup.getTitle())
+                .released(secretSantaGroup.isReleased())
                 .build();
     }
 }
