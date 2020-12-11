@@ -36,6 +36,10 @@ public class GroupRestService {
         return groupHalUtils.addHalLinks(secretSantaGroupTO);
     }
 
+    public boolean isReleased(String groupId) {
+        return groupService.isReleased(groupId);
+    }
+
     public void createSecretSantaPairs(String groupId) {
         personService.saveRandomPairs(groupId);
     }

@@ -59,6 +59,9 @@ public class GroupController {
 
     @PostMapping(value = "/{groupId}/shuffle")
     public ResponseEntity<Void> shuffleGroup(@PathVariable String groupId) {
+        if (groupRestService.isReleased(groupId)) {
+            return ResponseEntity.badRequest().build();
+        }
         groupRestService.createSecretSantaPairs(groupId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

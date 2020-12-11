@@ -30,4 +30,9 @@ public class GroupService {
         groupRepository.delete(group);
     }
 
+    public boolean isReleased(String groupId) {
+        return groupRepository.findById(groupId)
+                .map(SecretSantaGroup::isReleased)
+                .orElseThrow(IllegalStateException::new);
+    }
 }
