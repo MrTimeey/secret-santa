@@ -48,8 +48,9 @@ public class PersonController {
     }
 
     @DeleteMapping(value = "/{personId}")
-    public void deletePerson(@PathVariable String personId) {
+    public ResponseEntity<Void> deletePerson(@PathVariable String personId) {
         personRestService.deletePerson(personId);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping

@@ -1,30 +1,22 @@
 package de.mrtimeey.secretsanta.mail;
 
+import freemarker.cache.StringTemplateLoader;
+import freemarker.ext.beans.BeansWrapperBuilder;
+import freemarker.template.Configuration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-import java.util.Properties;
-
-@Configuration
+@org.springframework.context.annotation.Configuration
 public class MailConfiguration {
 
     @Bean
-    public JavaMailSender getJavaMailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.strato.de");
-        mailSender.setPort(465);
-
-        mailSender.setUsername("secret-santa@mrtimeey.de");
-        mailSender.setPassword("password");
-
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");
-
-        return mailSender;
+    public Configuration freemarkerConfig() {
+        freemarker.template.Configuration freemarkerConfig = new Configuration(Configuration.VERSION_2_3_30);
+        freemarkerConfig.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
+        freemarkerConfig.setDefaultEncoding("UTF-8");
+        freemarkerConfig.setNumberFormat("computer");
+        freemarkerConfig.setObjectWrapper(new BeansWrapperBuilder(Configuration.VERSION_2_3_30).build());
+        freemarkerConfig.setTemplateLoader(new StringTemplateLoader());
+        return freemarkerConfig;
     }
+
 }

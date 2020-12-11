@@ -1,4 +1,4 @@
-package de.mrtimeey.secretsanta.group.domain;
+package de.mrtimeey.secretsanta.group.domain.service;
 
 import com.google.common.collect.Lists;
 import de.mrtimeey.secretsanta.group.domain.entity.Person;
@@ -35,7 +35,16 @@ public class PersonService {
         return personRepository.findAllBySecretSantaGroupId(groupId);
     }
 
-    public List<Pair<Person, Person>> getRandomPairsForGroup(String groupId) {
+    public void saveRandomPairs(String groupId) {
+        List<Pair<Person, Person>> randomPairsForGroup = getRandomPairsForGroup(groupId);
+        randomPairsForGroup.forEach(pair -> {
+            pair.getFirst().setTargetPerson(pair.getSecond().getId());
+            this.save(pair.getFirst());
+        });
+
+    }
+
+    private List<Pair<Person, Person>> getRandomPairsForGroup(String groupId) {
         List<Person> participants = this.getParticipants(groupId);
         if (participants.isEmpty() || participants.size() == 1) {
             return Lists.newArrayList();

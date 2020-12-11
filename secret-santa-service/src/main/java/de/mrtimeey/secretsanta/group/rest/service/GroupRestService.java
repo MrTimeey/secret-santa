@@ -1,13 +1,15 @@
 package de.mrtimeey.secretsanta.group.rest.service;
 
-import de.mrtimeey.secretsanta.group.domain.GroupService;
-import de.mrtimeey.secretsanta.group.domain.PersonService;
+import com.google.common.base.Strings;
+import de.mrtimeey.secretsanta.group.domain.entity.Person;
 import de.mrtimeey.secretsanta.group.domain.entity.SecretSantaGroup;
-import de.mrtimeey.secretsanta.group.rest.controller.GroupController;
+import de.mrtimeey.secretsanta.group.domain.service.GroupService;
+import de.mrtimeey.secretsanta.group.domain.service.PersonService;
 import de.mrtimeey.secretsanta.group.rest.controller.PersonController;
 import de.mrtimeey.secretsanta.group.rest.request.CreateGroupRequest;
 import de.mrtimeey.secretsanta.group.rest.response.PersonTO;
 import de.mrtimeey.secretsanta.group.rest.response.SecretSantaGroupTO;
+import de.mrtimeey.secretsanta.group.rest.utils.GroupHalUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
@@ -25,18 +27,24 @@ public class GroupRestService {
 
     private final GroupService groupService;
     private final PersonService personService;
+    private final GroupHalUtils groupHalUtils;
 
 
     public SecretSantaGroupTO createNewGroup(CreateGroupRequest createGroupRequest) {
         SecretSantaGroup secretSantaGroup = groupService.createNewGroup(createGroupRequest.getTitle());
         SecretSantaGroupTO secretSantaGroupTO = SecretSantaGroupTO.fromBusinessModel(secretSantaGroup);
-        secretSantaGroupTO.add(linkTo(methodOn(GroupController.class).getGroup(secretSantaGroupTO.getId())).withSelfRel());
-        return secretSantaGroupTO;
+        return groupHalUtils.addHalLinks(secretSantaGroupTO);
     }
 
-    public List<Pair<String, String>> getSecretSantaPairs(String groupId) {
-        return personService.getRandomPairsForGroup(groupId).stream()
-                .map(pair -> Pair.of(pair.getFirst().getName(), pair.getSecond().getName()))
+    public void createSecretSantaPairs(String groupId) {
+        personService.saveRandomPairs(groupId);
+    }
+
+    public List<Pair<String, String>> getPairs(String groupId) {
+        List<Person> participants = personService.getParticipants(groupId);
+        return participants.stream()
+                .filter(p -> !Strings.isNullOrEmpty(p.getTargetPerson()))
+                .map(p -> Pair.of(p.getName(), personService.findById(p.getTargetPerson()).map(Person::getName).orElse("")))
                 .collect(Collectors.toList());
     }
 
@@ -51,10 +59,7 @@ public class GroupRestService {
                     group.setParticipants(participants);
                     return group;
                 })
-                .map(group -> {
-                    group.add(linkTo(methodOn(GroupController.class).getGroup(group.getId())).withSelfRel());
-                    return group;
-                });
+                .map(groupHalUtils::addHalLinks);
     }
 
     public boolean groupExisting(String groupId) {
@@ -72,4 +77,5 @@ public class GroupRestService {
                 .forEach(personService::delete);
         return secretSantaGroup;
     }
+
 }

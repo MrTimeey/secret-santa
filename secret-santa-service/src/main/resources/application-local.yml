@@ -5,6 +5,13 @@ spring:
       username: mongouser
       password: ${MONGODB_PASSWORD}
       database: secret_santa
-mrtimmey:
   mail:
+    host: smtp.strato.de
+    port: 465
+    username: secret-santa@mrtimeey.de
     password: ${MAIL_PASSWORD}
+    properties:
+      "mail.smtp.ssl.enable": true
+      "mail.smtp.auth": true
+      "mail.transport.protocol": smtp
+      "mail.smtp.starttls.enable": true

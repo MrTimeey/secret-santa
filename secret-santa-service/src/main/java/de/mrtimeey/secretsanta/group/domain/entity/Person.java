@@ -24,4 +24,6 @@ public class Person {
 
     @Email
     private String mail;
+
+    private String targetPerson;
 }

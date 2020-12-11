@@ -1,4 +1,4 @@
-package de.mrtimeey.secretsanta.group.domain;
+package de.mrtimeey.secretsanta.group.domain.service;
 
 import de.mrtimeey.secretsanta.group.domain.entity.SecretSantaGroup;
 import de.mrtimeey.secretsanta.group.domain.repository.GroupRepository;
@@ -25,6 +25,5 @@ public class GroupService {
     public void delete(SecretSantaGroup group) {
         groupRepository.delete(group);
     }
-
 
 }

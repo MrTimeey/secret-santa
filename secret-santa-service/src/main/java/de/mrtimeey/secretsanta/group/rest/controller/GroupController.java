@@ -3,6 +3,7 @@ package de.mrtimeey.secretsanta.group.rest.controller;
 import de.mrtimeey.secretsanta.group.rest.request.CreateGroupRequest;
 import de.mrtimeey.secretsanta.group.rest.response.SecretSantaGroupTO;
 import de.mrtimeey.secretsanta.group.rest.service.GroupRestService;
+import de.mrtimeey.secretsanta.group.rest.service.ReleaseRestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,7 @@ import java.util.List;
 public class GroupController {
 
     private final GroupRestService groupRestService;
+    private final ReleaseRestService releaseRestService;
 
     @PostMapping
     @ResponseStatus( HttpStatus.CREATED )
@@ -44,13 +46,26 @@ public class GroupController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping(value = "/{groupId}/shuffle")
-    public List<Pair<String, String>> shuffleGroup(@PathVariable String groupId) {
-        return groupRestService.getSecretSantaPairs(groupId);
+    @PostMapping(value = "/{groupId}/release")
+    public ResponseEntity<Void> releaseGroup(@PathVariable String groupId) {
+        releaseRestService.release(groupId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping(value = "/{groupId}/pairs")
+    public List<Pair<String, String>> getPairsFromGroup(@PathVariable String groupId) {
+        return groupRestService.getPairs(groupId);
+    }
+
+    @PostMapping(value = "/{groupId}/shuffle")
+    public ResponseEntity<Void> shuffleGroup(@PathVariable String groupId) {
+        groupRestService.createSecretSantaPairs(groupId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping(value = "/{groupId}")
-    public void deleteGroup(@PathVariable String groupId) {
+    public ResponseEntity<Void> deleteGroup(@PathVariable String groupId) {
         groupRestService.delete(groupId);
+        return ResponseEntity.ok().build();
     }
 }

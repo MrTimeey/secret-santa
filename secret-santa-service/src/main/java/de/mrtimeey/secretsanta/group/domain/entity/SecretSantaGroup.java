@@ -18,4 +18,6 @@ public class SecretSantaGroup {
     @NotBlank
     private String title;
 
+    @Builder.Default
+    private boolean released = false;
 }

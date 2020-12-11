@@ -3,19 +3,22 @@ version: '3'
 services:
 
   mongo-database:
-    build: ./mongoDB
+    image: bitnami/mongodb:4.2
     ports:
       - 27017:27017
     restart: always
     env_file: 
       - ./dev.env
+    environment:
+      - MONGODB_USERNAME=mongouser
+      - MONGODB_DATABASE=secret_santa
     volumes:
       - "mongo-data:/data/db"
 
   secret-santa-service:
     build: secret-santa-service
     ports:
-      - 8080:8080
+      - 8084:8080
     depends_on:
       - mongo-database
     restart: always
@@ -24,9 +27,14 @@ services:
     environment:
       - SPRING_DATA_MONGODB_HOST=mongo-database
       - SPRING_DATA_MONGODB_USERNAME=mongouser
-      - SPRING_DATA_MONGODB_PASSWORD=$MONGODB_PASSWORD
       - SPRING_DATA_MONGODB_DATABASE=secret_santa
-      - MRTIMEEY_MAIL_PASSWORD=§MAIL_PASSWORD
+      - SPRING_MAIL_HOST=smtp_strato_de
+      - SPRING_MAIL_PORT=465
+      - SPRING_MAIL_USERNAME=secret-santa@mrtimeey_de
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_SSL_ENABLE=true
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH=true
+      - SPRING_MAIL_PROPERTIES_MAIL_TRANSPORT_PROTOCOL=smtp
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true
       
   secret-santa-ui:
     build: secret-santa-ui
