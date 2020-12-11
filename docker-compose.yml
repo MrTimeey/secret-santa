@@ -30,7 +30,7 @@ services:
   secret-santa-ui:
     build: secret-santa-ui
     ports:
-      - 8081:8081
+      - 8089:80
 
 volumes:
   mongo-data:
