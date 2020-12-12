@@ -7,6 +7,7 @@ import de.mrtimeey.secretsanta.group.rest.service.ReleaseRestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,8 +34,8 @@ public class GroupController {
     private final GroupRestService groupRestService;
     private final ReleaseRestService releaseRestService;
 
-    @PostMapping
-    @ResponseStatus( HttpStatus.CREATED )
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus( HttpStatus.CREATED)
     @ResponseBody
     public SecretSantaGroupTO createGroup(@RequestBody @Valid CreateGroupRequest createGroupRequest) {
             return groupRestService.createNewGroup(createGroupRequest);
@@ -48,7 +49,7 @@ public class GroupController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping(value = "/{groupId}/release")
+    @PostMapping(value = "/{groupId}/release", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> releaseGroup(@PathVariable String groupId) {
         releaseRestService.release(groupId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
