@@ -4,13 +4,14 @@
     <v-toolbar flat class="mainHeader">
       <router-link v-bind:to="{name:'Home'}">
         <v-toolbar-title class="text-uppercase grey--text">
-          Secret<b>Santa</b>
+          Secret<strong>Santa</strong>
         </v-toolbar-title>
       </router-link>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
         <v-btn class="text-uppercase grey--text" text v-bind:to="{name:'Home'}">Home</v-btn>
         <v-btn class="text-uppercase grey--text" text v-bind:to="{name:'CreateGroup'}">Start</v-btn>
+        <v-btn class="text-uppercase grey--text" text v-bind:to="{name:'Imprint'}">Impressum</v-btn>
       </v-toolbar-items>
 
       <div class="hidden-sm-and-up">
@@ -24,6 +25,9 @@
             </v-list-item>
             <v-list-item>
               <v-btn class="text-uppercase grey--text" text v-bind:to="{name:'CreateGroup'}">Start</v-btn>
+            </v-list-item>
+            <v-list-item>
+              <v-btn class="text-uppercase grey--text" text v-bind:to="{name:'Imprint'}">Impressum</v-btn>
             </v-list-item>
           </v-list>
         </v-menu>
