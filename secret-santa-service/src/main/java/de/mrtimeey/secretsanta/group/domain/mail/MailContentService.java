@@ -1,4 +1,4 @@
-package de.mrtimeey.secretsanta.mail;
+package de.mrtimeey.secretsanta.group.domain.mail;
 
 import de.mrtimeey.secretsanta.group.domain.entity.Person;
 import de.mrtimeey.secretsanta.group.domain.entity.SecretSantaGroup;

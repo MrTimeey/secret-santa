@@ -2,7 +2,7 @@ package de.mrtimeey.secretsanta.group.domain.service;
 
 import de.mrtimeey.secretsanta.group.domain.entity.Person;
 import de.mrtimeey.secretsanta.group.domain.entity.SecretSantaGroup;
-import de.mrtimeey.secretsanta.mail.SecretSantaMailService;
+import de.mrtimeey.secretsanta.group.domain.mail.SecretSantaMailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;

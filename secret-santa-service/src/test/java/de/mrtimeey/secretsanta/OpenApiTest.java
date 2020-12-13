@@ -18,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("local")
 class OpenApiTest {
 
     private static final String DOC_URL = "/api-docs/openapi";

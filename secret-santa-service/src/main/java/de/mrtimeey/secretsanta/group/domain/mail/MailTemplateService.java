@@ -1,4 +1,4 @@
-package de.mrtimeey.secretsanta.mail;
+package de.mrtimeey.secretsanta.group.domain.mail;
 
 import freemarker.cache.StringTemplateLoader;
 import freemarker.template.Configuration;
