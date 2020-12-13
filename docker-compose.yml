@@ -4,8 +4,8 @@ services:
 
   mongo-database:
     image: bitnami/mongodb:4.2
-    ports:
-      - 27017:27017
+    #ports:
+      #- 27017:27017
     restart: always
     env_file: 
       - ./dev.env
@@ -17,8 +17,8 @@ services:
 
   secret-santa-service:
     build: secret-santa-service
-    ports:
-      - 8084:8080
+    #ports:
+      #- 8084:8080
     depends_on:
       - mongo-database
     restart: always
