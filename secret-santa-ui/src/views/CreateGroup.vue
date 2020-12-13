@@ -41,7 +41,7 @@ export default {
       var data = {
         'title': this.title
       }
-      let response = await this.$axios.post(baseUrl + "group/", data)
+      let response = await this.$axios.header("Access-Control-Allow-Origin: *").post(baseUrl + "group/", data)
       await router.push({ name: 'EditGroup', params: {groupId: response.data.id } })
     }
   }
