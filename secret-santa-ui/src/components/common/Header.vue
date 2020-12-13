@@ -9,21 +9,21 @@
       </router-link>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
-        <v-btn text v-bind:to="{name:'Home'}">Home</v-btn>
-        <v-btn text v-bind:to="{name:'CreateGroup'}">Start</v-btn>
+        <v-btn class="text-uppercase grey--text" text v-bind:to="{name:'Home'}">Home</v-btn>
+        <v-btn class="text-uppercase grey--text" text v-bind:to="{name:'CreateGroup'}">Start</v-btn>
       </v-toolbar-items>
 
       <div class="hidden-sm-and-up">
         <v-menu offset-y>
           <template v-slot:activator="{ on }">
-            <v-app-bar-nav-icon v-on="on"></v-app-bar-nav-icon>
+            <v-app-bar-nav-icon class="grey--text" v-on="on"></v-app-bar-nav-icon>
           </template>
           <v-list class="responsiveMenu">
             <v-list-item>
-              <v-btn text v-bind:to="{name:'Home'}">Home</v-btn>
+              <v-btn class="text-uppercase grey--text" text v-bind:to="{name:'Home'}">Home</v-btn>
             </v-list-item>
             <v-list-item>
-              <v-btn text v-bind:to="{name:'CreateGroup'}">Start</v-btn>
+              <v-btn class="text-uppercase grey--text" text v-bind:to="{name:'CreateGroup'}">Start</v-btn>
             </v-list-item>
           </v-list>
         </v-menu>
