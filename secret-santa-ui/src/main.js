@@ -8,7 +8,7 @@ Vue.config.productionTip = false
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 Vue.prototype.$axios = axios;
 
-export const baseUrl = process.env.NODE_ENV === "production" ? 'http://' + location.host + '/api/' : 'http://localhost:8084/';
+export const baseUrl = process.env.NODE_ENV === "production" ? 'https://cors-anywhere.herokuapp.com/http://' + location.host + '/api/' : 'http://localhost:8084/';
 
 new Vue({
   router,
