@@ -7,6 +7,8 @@ import axios from "axios";
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios;
 
+export const baseUrl = process.env.NODE_ENV === "production" ? 'http://' + location.host + '/api/' : 'http://localhost:8084/';
+
 new Vue({
   router,
   vuetify,

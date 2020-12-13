@@ -1,22 +1,38 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import CreateGroup from "@/views/CreateGroup";
+import NotFound from "@/views/NotFound";
+import EditGroup from "@/views/EditGroup";
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
+    redirect: '/home',
+    name: 'blank',
+    component: Home
+  },
+  {
+    path: '/home',
     name: 'Home',
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/createGroup',
+    name: 'CreateGroup',
+    component: CreateGroup
+  },
+  {
+    path: '/editGroup/:groupId',
+    name: 'EditGroup',
+    props: true,
+    component: EditGroup
+  },
+  {
+    path: "*",
+    component: NotFound
   }
 ]
 
