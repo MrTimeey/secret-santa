@@ -16,8 +16,8 @@ services:
   secret-santa-service:
     build: secret-santa-service
 #   For local usage only!
-#   ports:
-#     - 8084:8080
+    ports:
+      - 8084:8080
     depends_on:
       - mongo-database
     restart: always
