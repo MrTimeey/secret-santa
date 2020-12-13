@@ -5,6 +5,7 @@ import vuetify from './plugins/vuetify';
 import axios from "axios";
 
 Vue.config.productionTip = false
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 Vue.prototype.$axios = axios;
 
 export const baseUrl = process.env.NODE_ENV === "production" ? 'http://' + location.host + '/api/' : 'http://localhost:8084/';

@@ -41,18 +41,24 @@ export default {
       let data = {
         'title': this.title
       }
-      let response = await this.$axios.post(baseUrl + "group/", data)
-      await router.push({ name: 'EditGroup', params: {groupId: response.data.id } })
+      try {
+        let response = await this.$axios.post(baseUrl + "group/", data)
+        await router.push({name: 'EditGroup', params: {groupId: response.data.id}})
+      } catch (e) {
+        console.log(e)
+      }
+
     }
   }
 }
 </script>
 
 <style scoped>
-.v-text-field{
+.v-text-field {
   width: 400px;
 }
-.v-btn{
+
+.v-btn {
   margin-left: 1px;
 }
 </style>
