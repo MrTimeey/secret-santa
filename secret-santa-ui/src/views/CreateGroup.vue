@@ -10,10 +10,11 @@
                 hide-details="auto"
                 v-model="title"
                 @keyup.enter="create"
+                v-bind:loading="loading"
             ></v-text-field>
           </v-row>
           <v-row align="center" justify="space-around">
-            <v-btn @click="create" v-bind:disabled="title && title.length < 3">Anlegen</v-btn>
+            <v-btn @click="create" v-bind:disabled="title && title.length < 3 || loading">Anlegen</v-btn>
           </v-row>
         </v-col>
       </v-row>
@@ -31,6 +32,7 @@ export default {
   data: () => ({
     title: "",
     createdId: "",
+    loading: false,
     rules: [
       value => !!value || 'Required.',
       value => (value && value.length >= 3) || 'Min 3 characters',
@@ -38,6 +40,7 @@ export default {
   }),
   methods: {
     async create() {
+      this.loading = true
       let data = {
         'title': this.title
       }
