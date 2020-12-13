@@ -6,7 +6,7 @@ import axios from "axios";
 
 Vue.config.productionTip = false
 /*TODO: Remove setting the access control header globally*/
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+/*axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';*/
 Vue.prototype.$axios = axios;
 
 /*TODO: Remove slow cors workaround*/
