@@ -10,7 +10,7 @@ axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 Vue.prototype.$axios = axios;
 
 /*TODO: Remove slow cors workaround*/
-export const baseUrl = process.env.NODE_ENV === "production" ? 'http://' + location.host + '/api/' : 'http://localhost:8084/';
+export const baseUrl = process.env.NODE_ENV === "production" ? 'https://' + location.host + '/api/' : 'http://localhost:8084/';
 
 new Vue({
   router,
