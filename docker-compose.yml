@@ -38,8 +38,11 @@ services:
       
   secret-santa-ui:
     build: secret-santa-ui
+    restart: always
+    depends_on:
+      - secret-santa-service
     ports:
-      - 8089:80
+      - 8085:80
 
 volumes:
   mongo-data:

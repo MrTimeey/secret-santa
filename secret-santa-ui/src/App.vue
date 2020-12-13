@@ -38,23 +38,43 @@
     </v-app-bar>
 
     <v-main>
-      <HelloWorld/>
+      <input type="text" v-bind:value="createdId">
+      <v-btn @click="send">Post</v-btn>
+      <hr>
+      <input type="text" v-bind:value="getRes">
+      <v-btn @click="get">Get</v-btn>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+
+const url = 'http://' + location.host + '/api/';
 
 export default {
+
   name: 'App',
 
   components: {
-    HelloWorld,
+  },
+  methods: {
+    async get() {
+      let response = await this.$axios.get(url + "group/abvgcehcjbwrf")
+      this.getRes = response.data
+    },
+
+    async send() {
+      var data = {
+        'title': 'Silvester in der Spielegruppe'
+      }
+      let response = await this.$axios.post(url + "group/", data)
+      this.createdId = response.data.id
+    }
   },
 
   data: () => ({
-    //
+    createdId: "",
+    getRes: "",
   }),
 };
 </script>
