@@ -38,10 +38,15 @@ export default {
   }),
   methods: {
     async create() {
-      var data = {
+      let data = {
         'title': this.title
       }
-      let response = await this.$axios.header("Access-Control-Allow-Origin: *").post(baseUrl + "group/", data)
+      let config = {
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        }
+      }
+      let response = await this.$axios.post(baseUrl + "group/", data, config)
       await router.push({ name: 'EditGroup', params: {groupId: response.data.id } })
     }
   }
