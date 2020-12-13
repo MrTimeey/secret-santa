@@ -44,8 +44,14 @@ export default {
       let data = {
         'title': this.title
       }
+      let config = {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+
       try {
-        let response = await this.$axios.post(baseUrl + "group/", data)
+        let response = await this.$axios.post(baseUrl + "group/", data, config)
         await router.push({name: 'EditGroup', params: {groupId: response.data.id}})
       } catch (e) {
         console.log(e)
