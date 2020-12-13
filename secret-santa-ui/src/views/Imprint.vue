@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <v-container>
       <div class="block text-left notFound">
         <h1 >Impressum</h1>
@@ -318,7 +318,7 @@
         </p>
       </div>
     </v-container>
-  </v-content>
+  </v-main>
 </template>
 
 <script>

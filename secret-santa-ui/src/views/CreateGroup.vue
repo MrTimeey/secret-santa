@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <v-container fill-height grid-list-md>
       <v-row justify="center" align="center">
         <v-col cols="12" sm="4">
@@ -19,7 +19,7 @@
         </v-col>
       </v-row>
     </v-container>
-  </v-content>
+  </v-main>
 
 </template>
 

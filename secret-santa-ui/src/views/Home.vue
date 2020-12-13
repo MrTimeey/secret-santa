@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <v-container>
       <div class="block text-center notFound">
         <div class="home">
@@ -13,7 +13,7 @@
         </div>
       </div>
     </v-container>
-  </v-content>
+  </v-main>
 
 </template>
 

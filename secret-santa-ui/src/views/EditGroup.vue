@@ -1,13 +1,13 @@
 <template>
 
   <v-container>
-    <v-content>
+    <v-main>
       <v-container>
         <div class="block text-center notFound">
           <h1>{{this.groupId}}</h1>
         </div>
       </v-container>
-    </v-content>
+    </v-main>
   </v-container>
 </template>
 

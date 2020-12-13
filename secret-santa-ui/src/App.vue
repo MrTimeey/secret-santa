@@ -7,8 +7,7 @@
     <v-main>
       <router-view></router-view>
     </v-main>
-    <!-- Add 'app' for fixed below content -->
-    <v-footer flat color="white">
+    <v-footer app flat color="white">
       <Footer />
     </v-footer>
   </v-app>
