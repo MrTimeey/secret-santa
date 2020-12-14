@@ -50,6 +50,10 @@ public class GroupController {
 
     @PostMapping(value = "/{groupId}/release")
     public ResponseEntity<Void> releaseGroup(@PathVariable String groupId) {
+        if (groupRestService.isReleased(groupId)) {
+            return ResponseEntity.badRequest().build();
+        }
+        groupRestService.createSecretSantaPairs(groupId);
         releaseRestService.release(groupId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -57,15 +61,6 @@ public class GroupController {
     @GetMapping(value = "/{groupId}/pairs")
     public List<Pair<String, String>> getPairsFromGroup(@PathVariable String groupId) {
         return groupRestService.getPairs(groupId);
-    }
-
-    @PostMapping(value = "/{groupId}/shuffle")
-    public ResponseEntity<Void> shuffleGroup(@PathVariable String groupId) {
-        if (groupRestService.isReleased(groupId)) {
-            return ResponseEntity.badRequest().build();
-        }
-        groupRestService.createSecretSantaPairs(groupId);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping(value = "/{groupId}")
