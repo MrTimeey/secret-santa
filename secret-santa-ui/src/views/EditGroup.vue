@@ -1,26 +1,42 @@
 <template>
 
-  <v-container>
+  <v-container style="max-width: 800px">
     <v-main>
       <v-container>
         <div class="block text-center notFound">
           <h1>Gruppe bearbeiten</h1>
           <p><strong>Titel:</strong> {{ currentGroup.title }}</p>
-          <hr>
           <br>
-          <ul v-for="participant in currentGroup.participants" v-bind:key="participant.id">
-            <li>{{ participant.name }} - {{ participant.mail }}</li>
-          </ul>
-          <hr>
-          <v-form v-model="isFormValid">
-            <v-text-field label="Name" :rules="rules" hide-details="auto" v-model="personName"
-                          v-bind:loading="loading"></v-text-field>
-            <v-text-field label="E-Mail" :rules="rules && emailRules" hide-details="auto" v-model="personMail"
-                          v-bind:loading="loading"></v-text-field>
+
+          <v-container>
+            <v-row v-for="participant in currentGroup.participants" v-bind:key="participant.id">
+              <v-col cols="12" sm="6">
+                <v-text-field label="Name" hide-details="auto" v-model="participant.name" outlined disabled></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field label="E-Mail" hide-details="auto" v-model="participant.mail" outlined disabled></v-text-field>
+              </v-col>
+            </v-row>
+          </v-container>
+
+          <v-form ref="form" v-model="isFormValid">
+
+            <v-container>
+              <v-row>
+                <v-col cols="12" sm="6">
+                  <v-text-field label="Name" :rules="rules" hide-details="auto" v-model="personName"
+                                v-bind:loading="loading"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field label="E-Mail" :rules="emailRules" hide-details="auto" v-model="personMail"
+                                v-bind:loading="loading"></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
+
           </v-form>
           <v-btn @click="create" v-bind:disabled="!isFormValid || loading">Anlegen</v-btn>
           <br>
-          <hr>
           <div>
             <br>
             <strong>Status:</strong>
@@ -56,17 +72,18 @@ export default {
     groupId: String
   },
   data: () => ({
-    currentGroup: "",
+    currentGroup: {},
     loading: false,
     personName: "",
     personMail: "",
     isFormValid: false,
     rules: [
-      value => !!value || 'Required.',
-      value => (value && value.length >= 3) || 'Min 3 characters',
+      value => !!value || 'Pflichtfeld.',
+      value => (value && value.length >= 3) || 'Min. 3 Buchstaben',
     ],
     emailRules: [
-      v => !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+      value => !!value || 'Pflichtfeld.',
+      v => !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-Mail muss valide sein'
     ]
   }),
   mounted() {
@@ -78,7 +95,17 @@ export default {
       this.currentGroup = response.data
     },
     async create() {
-
+      this.loading = true
+      let data = {
+        "name": this.personName,
+        "mail": this.personMail,
+        "secretSantaGroupId": this.groupId
+      }
+      let response = await this.$axios.post(baseUrl + 'person', data)
+      this.currentGroup.participants.push(response.data)
+      console.log(response.data)
+      this.$refs.form.reset()
+      this.loading = false
     }
   }
 }
