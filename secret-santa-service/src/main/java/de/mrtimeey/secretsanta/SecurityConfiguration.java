@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
@@ -18,24 +19,11 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    /*@Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("*")
-                        .allowedMethods("GET", "UPDATE", "POST","DELETE");
-            }
-        };
-    }*/
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors()//.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
-                .and()
-                .csrf().disable()
+                .cors()
+                .and().csrf().disable()
                 .addFilterBefore(new WebSecurityCorsFilter(), ChannelProcessingFilter.class);;
     }
 

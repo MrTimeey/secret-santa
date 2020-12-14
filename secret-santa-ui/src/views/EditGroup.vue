@@ -8,7 +8,17 @@
           <p><strong>Titel:</strong> {{ currentGroup.title }}</p>
           <hr>
           <br>
-          Here goes participants stuff
+          <ul v-for="participant in currentGroup.participants" v-bind:key="participant.id">
+            <li>{{ participant.name }} - {{ participant.mail }}</li>
+          </ul>
+          <hr>
+          <v-form v-model="isFormValid">
+            <v-text-field label="Name" :rules="rules" hide-details="auto" v-model="personName"
+                          v-bind:loading="loading"></v-text-field>
+            <v-text-field label="E-Mail" :rules="rules && emailRules" hide-details="auto" v-model="personMail"
+                          v-bind:loading="loading"></v-text-field>
+          </v-form>
+          <v-btn @click="create" v-bind:disabled="!isFormValid || loading">Anlegen</v-btn>
           <br>
           <hr>
           <div>
@@ -46,7 +56,18 @@ export default {
     groupId: String
   },
   data: () => ({
-    currentGroup: ""
+    currentGroup: "",
+    loading: false,
+    personName: "",
+    personMail: "",
+    isFormValid: false,
+    rules: [
+      value => !!value || 'Required.',
+      value => (value && value.length >= 3) || 'Min 3 characters',
+    ],
+    emailRules: [
+      v => !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+    ]
   }),
   mounted() {
     this.getGroup(this.groupId)
@@ -55,6 +76,9 @@ export default {
     async getGroup(groupId) {
       let response = await this.$axios.get(baseUrl + 'group/' + groupId)
       this.currentGroup = response.data
+    },
+    async create() {
+
     }
   }
 }
