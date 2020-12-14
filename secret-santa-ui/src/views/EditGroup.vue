@@ -53,7 +53,7 @@
             <v-row justify="center" align-content="center">
               <p v-if="groupReleased">
                 <v-icon size="20px">fa-check</v-icon>
-                Gruppe bereits informiert!
+                Gruppe informiert!
               </p>
               <p v-else-if="!groupReady">
                 <v-icon size="20px">fa-stop-circle</v-icon>
