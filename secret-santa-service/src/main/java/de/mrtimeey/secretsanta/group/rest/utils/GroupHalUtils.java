@@ -13,7 +13,6 @@ public class GroupHalUtils {
 
     public SecretSantaGroupTO addHalLinks(SecretSantaGroupTO group) {
         group.add(linkTo(methodOn(GroupController.class).getGroup(group.getId())).withSelfRel());
-        group.add(linkTo(methodOn(GroupController.class).shuffleGroup(group.getId())).withRel(Relation.SHUFFLE_GROUP));
         group.add(linkTo(methodOn(GroupController.class).getPairsFromGroup(group.getId())).withRel(Relation.GET_PAIRS));
         group.add(linkTo(methodOn(GroupController.class).deleteGroup(group.getId())).withRel(Relation.DELETE_GROUP));
         group.add(linkTo(methodOn(GroupController.class).releaseGroup(group.getId())).withRel(Relation.RELEASE_GROUP));

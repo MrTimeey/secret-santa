@@ -34,7 +34,8 @@ public class PersonController {
     @PostMapping
     @Validated(OnCreate.class)
     public ResponseEntity<PersonTO> createPerson(@RequestBody @Valid PersonTO personTO) {
-        if (!groupRestService.groupExisting(personTO.getSecretSantaGroupId())) {
+        String secretSantaGroupId = personTO.getSecretSantaGroupId();
+        if (!groupRestService.groupExisting(secretSantaGroupId) || groupRestService.isReleased(secretSantaGroupId)) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(personRestService.create(personTO));

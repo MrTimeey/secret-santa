@@ -7,20 +7,25 @@
           <h1>Gruppe bearbeiten</h1>
           <p><strong>Titel:</strong> {{ currentGroup.title }}</p>
           <br>
-
-          <v-container>
-            <v-row v-for="participant in currentGroup.participants" v-bind:key="participant.id">
+          <p v-if="error" style="color: darkred"><strong>Unerwarteter Fehler! Bitte versuchen Sie es erneut!</strong></p>
+          <v-container v-if="!groupEmpty">
+            <v-row v-for="participant in currentGroup.participants" v-bind:key="participant.id" justify="center">
               <v-col cols="12" sm="6">
-                <v-text-field label="Name" hide-details="auto" v-model="participant.name" outlined disabled></v-text-field>
+                <v-text-field label="Name" hide-details="auto" v-model="participant.name" outlined
+                              disabled></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field label="E-Mail" hide-details="auto" v-model="participant.mail" outlined disabled></v-text-field>
+                <v-text-field label="E-Mail" hide-details="auto" v-model="participant.mail" outlined
+                              disabled></v-text-field>
               </v-col>
+              <!--<v-col cols="1" sm="1">
+                <v-icon size="20px">fa-edit</v-icon>
+                <v-icon size="20px">fa-trash-alt</v-icon>
+              </v-col>-->
             </v-row>
           </v-container>
 
-          <v-form ref="form" v-model="isFormValid">
-
+          <v-form ref="form" v-model="isFormValid" v-if="addUser">
             <v-container>
               <v-row>
                 <v-col cols="12" sm="6">
@@ -33,19 +38,24 @@
                 </v-col>
               </v-row>
             </v-container>
-
+            <v-container >
+              <v-btn @click="addUser = !addUser" v-bind:disabled="loading">Abbrechen</v-btn>
+              <v-btn @click="create" v-bind:disabled="!isFormValid || loading">Anlegen</v-btn>
+            </v-container>
           </v-form>
-          <v-btn @click="create" v-bind:disabled="!isFormValid || loading">Anlegen</v-btn>
+          <v-btn v-if="!addUser && !currentGroup.released" @click="addUser = !addUser" v-bind:disabled="loading">
+            Hinzufügen
+          </v-btn>
           <br>
           <div>
             <br>
             <strong>Status:</strong>
             <v-row justify="center" align-content="center">
-              <p v-if="currentGroup.released">
+              <p v-if="groupReleased">
                 <v-icon size="20px">fa-check</v-icon>
                 Gruppe bereits informiert!
               </p>
-              <p v-else-if="!currentGroup.participants || currentGroup.participants.length <= 1">
+              <p v-else-if="!groupReady">
                 <v-icon size="20px">fa-stop-circle</v-icon>
                 Zu wenig Teilnehmer
               </p>
@@ -55,6 +65,12 @@
               </p>
             </v-row>
           </div>
+          <v-btn v-if="!groupReleased && groupReady" @click="startGroup" v-bind:disabled="loading" v-bind:loading="loading" color="primary"
+                 large>Start
+          </v-btn>
+
+          <br>
+          <br>
           <p><strong>Vorsicht!</strong> <br>Die Gruppe kann nur unter dieser URL bearbeitet werden.<br>
             Wer über den Link verfügt kann Änderungen vornehmen.</p>
         </div>
@@ -77,15 +93,28 @@ export default {
     personName: "",
     personMail: "",
     isFormValid: false,
+    addUser: false,
+    error: false,
     rules: [
       value => !!value || 'Pflichtfeld.',
-      value => (value && value.length >= 3) || 'Min. 3 Buchstaben',
+      value => (value && Object.keys(value).length >= 3) || 'Min. 3 Buchstaben',
     ],
     emailRules: [
       value => !!value || 'Pflichtfeld.',
       v => !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-Mail muss valide sein'
     ]
   }),
+  computed: {
+    groupReady: function () {
+      return !this.groupReleased && this.currentGroup.participants && Object.keys(this.currentGroup.participants).length > 1
+    },
+    groupEmpty: function () {
+      return !this.currentGroup.participants || Object.keys(this.currentGroup.participants).length === 0
+    },
+    groupReleased: function () {
+      return this.currentGroup.released
+    }
+  },
   mounted() {
     this.getGroup(this.groupId)
   },
@@ -103,8 +132,21 @@ export default {
       }
       let response = await this.$axios.post(baseUrl + 'person', data)
       this.currentGroup.participants.push(response.data)
-      console.log(response.data)
       this.$refs.form.reset()
+      this.loading = false
+    },
+    async startGroup() {
+      this.loading = true
+      this.addUser = false
+      this.error = false
+      try {
+        await this.$axios.post(baseUrl + 'group/'+this.groupId+'/release', {})
+        await this.getGroup(this.groupId)
+      } catch (e) {
+        this.error = true
+        console.error(e)
+      }
+
       this.loading = false
     }
   }

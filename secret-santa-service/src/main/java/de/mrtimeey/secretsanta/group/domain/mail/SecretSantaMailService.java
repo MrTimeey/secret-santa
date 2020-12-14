@@ -24,6 +24,9 @@ public class SecretSantaMailService {
     private String username;
 
     public void send(SecretSantaGroup secretSantaGroup, Person person, Person targetPerson) {
+        try {
+
+
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
         String htmlMsg = mailContentService.getMailContent(secretSantaGroup, person, targetPerson);
@@ -36,5 +39,8 @@ public class SecretSantaMailService {
             log.error("Failed sending mail to '{}'!", person, e);
         }
         mailSender.send(mimeMessage);
+        } catch (Exception e) {
+            log.error("Failed sending mail to '{}' with address '{}'!", person.getName(), person.getMail(), e);
+        }
     }
 }
