@@ -7,32 +7,8 @@
           <h1>Gruppe bearbeiten</h1>
           <p><strong>Titel:</strong> {{ currentGroup.title }}</p>
           <br>
-          <v-container style="color: darkred" v-if="containsMailFailures" >
-            <v-row justify="center"><strong>Fehler beim Mail Versand!</strong></v-row>
-            <v-row justify="center">Folgende Mails konnten nicht versendet werden: {{ failedMails }}</v-row>
-            <br>
-            <v-row justify="center">Aktuell besteht leider keine Möglichkeit einzelne Mails erneut zu verschicken.</v-row>
-            <v-row justify="center">Um das Problem zu beheben musst du die Gruppe abbrechen, anschließend eine neue starten.</v-row>
-            <br>
-            <v-row justify="center">Aktuell arbeiten wir daran, diesen Prozess zu vereinfachen.</v-row>
-          </v-container>
-
-          <v-container v-if="!groupEmpty">
-            <v-row v-for="participant in currentGroup.participants" v-bind:key="participant.id" justify="center">
-              <v-col cols="12" sm="6">
-                <v-text-field label="Name" hide-details v-model="participant.name" outlined
-                              disabled></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field label="E-Mail" hide-details v-model="participant.mail" outlined
-                              disabled></v-text-field>
-              </v-col>
-              <!--<v-col cols="1" sm="1">
-                <v-icon size="20px">fa-edit</v-icon>
-                <v-icon size="20px">fa-trash-alt</v-icon>
-              </v-col>-->
-            </v-row>
-          </v-container>
+          <EditGroupError v-bind:participants="currentGroup.participants"/>
+          <EditGroupParticipantList :participants="currentGroup.participants"/>
 
           <v-form ref="form" v-model="isFormValid" v-if="addUser">
             <v-container>
@@ -102,9 +78,12 @@
 
 <script>
 import {baseUrl} from "@/main";
+import EditGroupError from "@/components/edit/EditGroupError";
+import EditGroupParticipantList from "@/components/edit/EditGroupParticipantList";
 
 export default {
   name: "EditGroup",
+  components: {EditGroupParticipantList, EditGroupError},
   props: {
     groupId: String
   },
@@ -128,21 +107,8 @@ export default {
     groupReady: function () {
       return !this.groupReleased && this.currentGroup.participants && Object.keys(this.currentGroup.participants).length > 1
     },
-    groupEmpty: function () {
-      return !this.currentGroup.participants || Object.keys(this.currentGroup.participants).length === 0
-    },
     groupReleased: function () {
       return this.currentGroup.released
-    },
-    containsMailFailures: function () {
-      return this.currentGroup.participants && this.currentGroup.participants
-          .filter(person => person.mailSend === false).length > 0
-    },
-    failedMails: function () {
-      return this.currentGroup.participants
-          .filter(person => person.mailSend === false)
-          .map(person => person.name.concat(" (", person.mail, ")"))
-          .join(', ')
     }
   },
   mounted() {

@@ -1,0 +1,39 @@
+<template>
+  <v-container style="color: darkred" v-if="containsMailFailures" >
+    <v-row justify="center"><strong>Fehler beim Mail Versand!</strong></v-row>
+    <v-row justify="center">Folgende Mails konnten nicht versendet werden: {{ failedMails }}</v-row>
+    <br>
+    <v-row justify="center">Aktuell besteht leider keine Möglichkeit einzelne Mails erneut zu verschicken.</v-row>
+    <v-row justify="center">Um das Problem zu beheben musst du die Gruppe abbrechen, anschließend eine neue starten.</v-row>
+    <br>
+    <v-row justify="center">Aktuell arbeiten wir daran, diesen Prozess zu vereinfachen.</v-row>
+  </v-container>
+</template>
+
+<script>
+export default {
+  name: "EditGroupError",
+  props: {
+    participants: {
+      type: Array,
+      required: true
+    }
+  },
+  computed: {
+    containsMailFailures: function () {
+      return this.participants && this.participants
+          .filter(person => person.mailSend === false).length > 0
+    },
+    failedMails: function () {
+      return this.participants
+          .filter(person => person.mailSend === false)
+          .map(person => person.name.concat(" (", person.mail, ")"))
+          .join(', ')
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
