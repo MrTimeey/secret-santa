@@ -23,7 +23,7 @@ public class RateLimitInterceptor implements HandlerInterceptor {
 
     @PostConstruct
     public void init() {
-        Bandwidth limit = Bandwidth.classic(20, Refill.greedy(20, Duration.ofMinutes(1)));
+        Bandwidth limit = Bandwidth.classic(50, Refill.greedy(50, Duration.ofMinutes(1)));
         bucket = Bucket4j.builder()
                 .addLimit(limit)
                 .build();
