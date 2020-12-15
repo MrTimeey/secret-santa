@@ -13,4 +13,8 @@ public class ReleaseRestService {
     public void release(String groupId) {
         releaseService.release(groupId);
     }
+
+    public void resendMail(String groupId) {
+        releaseService.resendMail(groupId);
+    }
 }

@@ -1,5 +1,5 @@
 <h3>Hi ${name}!</h3>
-<#if retry?? >
+<#if retry >
     <p>Kurze Erinnerung:</p>
 </#if>
 <p>Du wurdest zu der Wichtel-Gruppe "${secretSantaGroupTitle}" hinzugefügt!</p>

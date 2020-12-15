@@ -68,6 +68,9 @@
           <v-btn v-if="!groupReleased && groupReady" @click="startGroup" v-bind:disabled="loading" v-bind:loading="loading" color="primary"
                  large>Start
           </v-btn>
+          <v-btn v-if="groupReleased" @click="resendMail" v-bind:disabled="loading" v-bind:loading="loading" color="primary"
+                 >Mail erneut verschicken
+          </v-btn>
 
           <br>
           <br>
@@ -147,6 +150,18 @@ export default {
         console.error(e)
       }
 
+      this.loading = false
+    },
+    async resendMail() {
+      this.loading = true
+      this.addUser = false
+      this.error = false
+      try {
+        await this.$axios.post(baseUrl + 'group/'+this.groupId+'/resend', {})
+      } catch (e) {
+        this.error = true
+        console.error(e)
+      }
       this.loading = false
     }
   }

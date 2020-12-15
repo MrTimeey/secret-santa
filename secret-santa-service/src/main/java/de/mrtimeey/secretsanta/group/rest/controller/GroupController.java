@@ -48,6 +48,15 @@ public class GroupController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PostMapping(value = "/{groupId}/resend")
+    public ResponseEntity<Void> resendMail(@PathVariable String groupId) {
+        if (!groupRestService.isReleased(groupId)) {
+            return ResponseEntity.badRequest().build();
+        }
+        releaseRestService.resendMail(groupId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
     @PostMapping(value = "/{groupId}/release")
     public ResponseEntity<Void> releaseGroup(@PathVariable String groupId) {
         if (groupRestService.isReleased(groupId)) {
