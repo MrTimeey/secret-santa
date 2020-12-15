@@ -3,6 +3,7 @@ package de.mrtimeey.secretsanta.group.domain.mail;
 import de.mrtimeey.secretsanta.group.domain.entity.Person;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,9 @@ public class SecretSantaMailService {
 
     private final JavaMailSender mailSender;
 
+    @Value("${spring.mail.username}")
+    private String username;
+
     public boolean send(Person person, String htmlMsg, String subject) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
@@ -25,7 +29,7 @@ public class SecretSantaMailService {
                 helper.setText(htmlMsg, true);
                 helper.setTo(person.getMail());
                 helper.setSubject(subject);
-                helper.setFrom("no-reply@the-secret-santa.de");
+                helper.setFrom(username);
             } catch (MessagingException e) {
                 log.error("Failed sending mail to '{}'!", person, e);
             }
