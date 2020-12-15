@@ -11,6 +11,7 @@
             </v-btn>
           </v-card-text>
           <v-divider></v-divider>
+          <div style="padding: 8px; font-size: 10px" class="text-uppercase grey--text">Icons made by <a href="https://icon54.com/" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
           <v-card-text style="padding: 8px" class="text-uppercase grey--text">
             {{ new Date().getFullYear() }} —
             Secret<strong>Santa</strong>
