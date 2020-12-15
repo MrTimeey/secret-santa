@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ReleaseService {
 
+    public static final String START_SUBJECT = "Wichtel-Gruppe: Dein geheimer Wichtel-Partner!";
+    public static final String CANCEL_SUBJECT = "Wichtel-Gruppe: Abbruch!";
     private final GroupService groupService;
     private final PersonService personService;
     private final SecretSantaMailService secretSantaMailService;
@@ -27,7 +29,7 @@ public class ReleaseService {
                 .collect(Collectors.toList());
         pairs.forEach(p -> {
             String mailContent = mailContentService.getMailContent(secretSantaGroup, p.getFirst(), p.getSecond());
-            secretSantaMailService.send(p.getFirst(), mailContent);
+            secretSantaMailService.send(p.getFirst(), mailContent, START_SUBJECT);
         });
         secretSantaGroup.setReleased(true);
         groupService.saveGroup(secretSantaGroup);
@@ -40,11 +42,22 @@ public class ReleaseService {
                 .collect(Collectors.toList());
         pairs.forEach(p -> {
             String mailContent = mailContentService.getRetryMailContent(secretSantaGroup, p.getFirst(), p.getSecond());
-            secretSantaMailService.send(p.getFirst(), mailContent);
+            secretSantaMailService.send(p.getFirst(), mailContent, START_SUBJECT);
         });
+    }
+
+    public void cancelGroup(String groupId) {
+        SecretSantaGroup secretSantaGroup = getSecretSantaGroup(groupId);
+        personService.getParticipants(groupId).forEach(p -> {
+            String mailContent = mailContentService.getCancelMailContent(secretSantaGroup, p);
+            secretSantaMailService.send(p, mailContent, CANCEL_SUBJECT);
+        });
+        secretSantaGroup.setReleased(false);
+        groupService.saveGroup(secretSantaGroup);
     }
 
     private SecretSantaGroup getSecretSantaGroup(String groupId) {
         return groupService.getGroup(groupId).orElseThrow(IllegalStateException::new);
     }
+
 }

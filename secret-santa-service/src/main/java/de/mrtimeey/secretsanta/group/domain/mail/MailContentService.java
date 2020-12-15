@@ -33,4 +33,11 @@ public class MailContentService {
         data.put("secretSantaGroupTitle", secretSantaGroup.getTitle());
         return data;
     }
+
+    public String getCancelMailContent(SecretSantaGroup secretSantaGroup, Person person) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("name", person.getName());
+        data.put("secretSantaGroupTitle", secretSantaGroup.getTitle());
+        return mailTemplateService.processTemplate("cancel", data);
+    }
 }

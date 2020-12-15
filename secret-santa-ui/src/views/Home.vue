@@ -6,7 +6,7 @@
           <h1>Herzlich Willkommen!</h1>
           <br>
           <br>
-          <p>Du willst auch in aktuellen Zeiten gerne mit deinen Liebsten wichteln, möchtest dich aber trotzdem an die Abstandsregeln halten?</p>
+          <p>Du willst auch in aktuellen Zeiten gerne mit deinen Liebsten wichteln, kommst allerdings nicht zusammen um die Gruppen auszulosen?</p>
           <p>Dafür gibts hier die Lösung! Lege dir einfach eine Gruppe an, füg deine Freunde hinzu und schon kann es losgehen!</p>
           <br>
           <p><b>Hier gehts <router-link v-bind:to="{name:'CreateGroup'}">los</router-link>!</b></p>

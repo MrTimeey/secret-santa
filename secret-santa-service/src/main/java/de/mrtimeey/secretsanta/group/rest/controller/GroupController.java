@@ -57,6 +57,15 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PostMapping(value = "/{groupId}/cancel")
+    public ResponseEntity<Void> cancelGroup(@PathVariable String groupId) {
+        if (!groupRestService.isReleased(groupId)) {
+            return ResponseEntity.badRequest().build();
+        }
+        releaseRestService.cancelGroup(groupId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
     @PostMapping(value = "/{groupId}/release")
     public ResponseEntity<Void> releaseGroup(@PathVariable String groupId) {
         if (groupRestService.isReleased(groupId)) {

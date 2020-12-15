@@ -7,15 +7,16 @@
           <h1>Gruppe bearbeiten</h1>
           <p><strong>Titel:</strong> {{ currentGroup.title }}</p>
           <br>
-          <p v-if="error" style="color: darkred"><strong>Unerwarteter Fehler! Bitte versuchen Sie es erneut!</strong></p>
+          <p v-if="error" style="color: darkred"><strong>Unerwarteter Fehler! Bitte versuchen Sie es erneut!</strong>
+          </p>
           <v-container v-if="!groupEmpty">
             <v-row v-for="participant in currentGroup.participants" v-bind:key="participant.id" justify="center">
               <v-col cols="12" sm="6">
-                <v-text-field label="Name" hide-details="auto" v-model="participant.name" outlined
+                <v-text-field label="Name" hide-details v-model="participant.name" outlined
                               disabled></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field label="E-Mail" hide-details="auto" v-model="participant.mail" outlined
+                <v-text-field label="E-Mail" hide-details v-model="participant.mail" outlined
                               disabled></v-text-field>
               </v-col>
               <!--<v-col cols="1" sm="1">
@@ -38,7 +39,7 @@
                 </v-col>
               </v-row>
             </v-container>
-            <v-container >
+            <v-container>
               <v-btn @click="addUser = !addUser" v-bind:disabled="loading">Abbrechen</v-btn>
               <v-btn @click="create" v-bind:disabled="!isFormValid || loading">Anlegen</v-btn>
             </v-container>
@@ -65,13 +66,22 @@
               </p>
             </v-row>
           </div>
-          <v-btn v-if="!groupReleased && groupReady" @click="startGroup" v-bind:disabled="loading" v-bind:loading="loading" color="primary"
+          <v-btn v-if="!groupReleased && groupReady" @click="startGroup" v-bind:disabled="loading"
+                 v-bind:loading="loading" color="primary"
                  large>Start
           </v-btn>
-          <v-btn v-if="groupReleased" @click="resendMail" v-bind:disabled="loading" v-bind:loading="loading" color="primary"
-                 >Mail erneut verschicken
-          </v-btn>
-
+          <v-container>
+            <v-row justify="center" class="pa-5">
+                <v-btn v-if="groupReleased" @click="cancelGroup" v-bind:disabled="loading" v-bind:loading="loading"
+                       color="error"
+                >Wichteln Abbrechen
+                </v-btn>
+                <v-btn v-if="groupReleased" @click="resendMail" v-bind:disabled="loading" v-bind:loading="loading"
+                       color="primary"
+                >Erneut verschicken
+                </v-btn>
+            </v-row>
+          </v-container>
           <br>
           <br>
           <p><strong>Vorsicht!</strong> <br>Die Gruppe kann nur unter dieser URL bearbeitet werden.<br>
@@ -143,7 +153,7 @@ export default {
       this.addUser = false
       this.error = false
       try {
-        await this.$axios.post(baseUrl + 'group/'+this.groupId+'/release', {})
+        await this.$axios.post(baseUrl + 'group/' + this.groupId + '/release', {})
         await this.getGroup(this.groupId)
       } catch (e) {
         this.error = true
@@ -157,7 +167,19 @@ export default {
       this.addUser = false
       this.error = false
       try {
-        await this.$axios.post(baseUrl + 'group/'+this.groupId+'/resend', {})
+        await this.$axios.post(baseUrl + 'group/' + this.groupId + '/resend', {})
+      } catch (e) {
+        this.error = true
+        console.error(e)
+      }
+      this.loading = false
+    },
+    async cancelGroup() {
+      this.loading = true
+      this.addUser = false
+      this.error = false
+      try {
+        await this.$axios.post(baseUrl + 'group/' + this.groupId + '/cancel', {})
       } catch (e) {
         this.error = true
         console.error(e)

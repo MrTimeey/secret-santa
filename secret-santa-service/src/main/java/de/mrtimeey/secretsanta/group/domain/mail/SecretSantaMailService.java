@@ -22,14 +22,14 @@ public class SecretSantaMailService {
     @Value("${spring.mail.username}")
     private String username;
 
-    public void send(Person person, String htmlMsg) {
+    public void send(Person person, String htmlMsg, String subject) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
             try {
                 helper.setText(htmlMsg, true);
                 helper.setTo(person.getMail());
-                helper.setSubject("Wichtel-Gruppe: Dein geheimer Wichtel-Partner!");
+                helper.setSubject(subject);
                 helper.setFrom(username);
             } catch (MessagingException e) {
                 log.error("Failed sending mail to '{}'!", person, e);

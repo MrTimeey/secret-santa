@@ -17,4 +17,8 @@ public class ReleaseRestService {
     public void resendMail(String groupId) {
         releaseService.resendMail(groupId);
     }
+
+    public void cancelGroup(String groupId) {
+        releaseService.cancelGroup(groupId);
+    }
 }
