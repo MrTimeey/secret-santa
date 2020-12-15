@@ -25,5 +25,8 @@ public class Person {
     @Email
     private String mail;
 
+    @Builder.Default
+    private boolean mailSend = false;
+
     private String targetPerson;
 }

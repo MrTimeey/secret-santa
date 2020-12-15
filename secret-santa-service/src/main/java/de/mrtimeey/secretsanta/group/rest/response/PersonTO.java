@@ -33,12 +33,15 @@ public class PersonTO extends RepresentationModel<PersonTO> {
     @Null(groups = OnUpdate.class)
     private String secretSantaGroupId;
 
+    private boolean mailSend;
+
     public static PersonTO fromBusinessModel(Person person) {
         return PersonTO.builder()
                 .id(person.getId())
                 .secretSantaGroupId(person.getSecretSantaGroupId())
                 .name(person.getName())
                 .mail(person.getMail())
+                .mailSend(person.isMailSend())
                 .build();
     }
 

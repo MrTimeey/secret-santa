@@ -7,8 +7,16 @@
           <h1>Gruppe bearbeiten</h1>
           <p><strong>Titel:</strong> {{ currentGroup.title }}</p>
           <br>
-          <p v-if="error" style="color: darkred"><strong>Unerwarteter Fehler! Bitte versuchen Sie es erneut!</strong>
-          </p>
+          <v-container style="color: darkred" v-if="containsMailFailures" >
+            <v-row justify="center"><strong>Fehler beim Mail Versand!</strong></v-row>
+            <v-row justify="center">Folgende Mails konnten nicht versendet werden: {{ failedMails }}</v-row>
+            <br>
+            <v-row justify="center">Aktuell besteht leider keine Möglichkeit einzelne Mails erneut zu verschicken.</v-row>
+            <v-row justify="center">Um das Problem zu beheben musst du die Gruppe abbrechen, die Mail korrigieren und anschließend erneut starten.</v-row>
+            <br>
+            <v-row justify="center">Aktuell arbeiten wir daran, diesen Prozess zu vereinfachen.</v-row>
+          </v-container>
+
           <v-container v-if="!groupEmpty">
             <v-row v-for="participant in currentGroup.participants" v-bind:key="participant.id" justify="center">
               <v-col cols="12" sm="6">
@@ -107,7 +115,6 @@ export default {
     personMail: "",
     isFormValid: false,
     addUser: false,
-    error: false,
     rules: [
       value => !!value || 'Pflichtfeld.',
       value => (value && Object.keys(value).length >= 3) || 'Min. 3 Buchstaben',
@@ -126,6 +133,16 @@ export default {
     },
     groupReleased: function () {
       return this.currentGroup.released
+    },
+    containsMailFailures: function () {
+      return this.currentGroup.participants && this.currentGroup.participants
+          .filter(person => person.mailSend === false).length > 0
+    },
+    failedMails: function () {
+      return this.currentGroup.participants
+          .filter(person => person.mailSend === false)
+          .map(person => person.name.concat(" (", person.mail, ")"))
+          .join(', ')
     }
   },
   mounted() {
@@ -151,25 +168,21 @@ export default {
     async startGroup() {
       this.loading = true
       this.addUser = false
-      this.error = false
       try {
         await this.$axios.post(baseUrl + 'group/' + this.groupId + '/release', {})
-        await this.getGroup(this.groupId)
+        await this.getGroup(this.groupId);
       } catch (e) {
-        this.error = true
         console.error(e)
       }
-
       this.loading = false
     },
     async resendMail() {
       this.loading = true
       this.addUser = false
-      this.error = false
       try {
         await this.$axios.post(baseUrl + 'group/' + this.groupId + '/resend', {})
+        await this.getGroup(this.groupId);
       } catch (e) {
-        this.error = true
         console.error(e)
       }
       this.loading = false
@@ -180,8 +193,8 @@ export default {
       this.error = false
       try {
         await this.$axios.post(baseUrl + 'group/' + this.groupId + '/cancel', {})
+        await this.getGroup(this.groupId)
       } catch (e) {
-        this.error = true
         console.error(e)
       }
       this.loading = false

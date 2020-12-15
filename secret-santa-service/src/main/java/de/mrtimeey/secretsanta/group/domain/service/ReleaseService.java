@@ -28,8 +28,11 @@ public class ReleaseService {
                 .map(p -> Pair.of(p, personService.findById(p.getTargetPerson()).orElseThrow(IllegalStateException::new)))
                 .collect(Collectors.toList());
         pairs.forEach(p -> {
-            String mailContent = mailContentService.getMailContent(secretSantaGroup, p.getFirst(), p.getSecond());
-            secretSantaMailService.send(p.getFirst(), mailContent, START_SUBJECT);
+            Person person = p.getFirst();
+            String mailContent = mailContentService.getMailContent(secretSantaGroup, person, p.getSecond());
+            boolean mailSend = secretSantaMailService.send(person, mailContent, START_SUBJECT);
+            person.setMailSend(mailSend);
+            personService.save(person);
         });
         secretSantaGroup.setReleased(true);
         groupService.saveGroup(secretSantaGroup);
@@ -41,8 +44,11 @@ public class ReleaseService {
                 .map(p -> Pair.of(p, personService.findById(p.getTargetPerson()).orElseThrow(IllegalStateException::new)))
                 .collect(Collectors.toList());
         pairs.forEach(p -> {
-            String mailContent = mailContentService.getRetryMailContent(secretSantaGroup, p.getFirst(), p.getSecond());
-            secretSantaMailService.send(p.getFirst(), mailContent, START_SUBJECT);
+            Person person = p.getFirst();
+            String mailContent = mailContentService.getRetryMailContent(secretSantaGroup, person, p.getSecond());
+            boolean mailSend = secretSantaMailService.send(person, mailContent, START_SUBJECT);
+            person.setMailSend(mailSend);
+            personService.save(person);
         });
     }
 

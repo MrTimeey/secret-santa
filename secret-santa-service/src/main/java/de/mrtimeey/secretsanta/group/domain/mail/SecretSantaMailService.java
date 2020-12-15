@@ -22,7 +22,7 @@ public class SecretSantaMailService {
     @Value("${spring.mail.username}")
     private String username;
 
-    public void send(Person person, String htmlMsg, String subject) {
+    public boolean send(Person person, String htmlMsg, String subject) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
@@ -35,8 +35,10 @@ public class SecretSantaMailService {
                 log.error("Failed sending mail to '{}'!", person, e);
             }
             mailSender.send(mimeMessage);
+            return true;
         } catch (Exception e) {
             log.error("Failed sending mail to '{}' with address '{}'!", person.getName(), person.getMail(), e);
+            return false;
         }
     }
 }
