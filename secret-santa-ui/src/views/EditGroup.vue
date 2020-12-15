@@ -7,7 +7,7 @@
           <h1>Gruppe bearbeiten</h1>
           <p><strong>Titel:</strong> {{ currentGroup.title }}</p>
           <br>
-          <EditGroupError v-bind:participants="currentGroup.participants"/>
+          <EditGroupError v-bind:participants="currentGroup.participants" v-bind:groupReleased="groupReleased"/>
           <EditGroupParticipantList :participants="currentGroup.participants"/>
 
           <v-form ref="form" v-model="isFormValid" v-if="addUser">

@@ -1,5 +1,5 @@
 <template>
-  <v-container style="color: darkred" v-if="containsMailFailures" >
+  <v-container style="color: darkred" v-if="groupReleased && containsMailFailures" >
     <v-row justify="center"><strong>Fehler beim Mail Versand!</strong></v-row>
     <v-row justify="center">Folgende Mails konnten nicht versendet werden: {{ failedMails }}</v-row>
     <br>
@@ -16,6 +16,10 @@ export default {
   props: {
     participants: {
       type: Array,
+      required: true
+    },
+    groupReleased: {
+      type: Boolean,
       required: true
     }
   },

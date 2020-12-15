@@ -29,7 +29,7 @@ services:
       - SPRING_DATA_MONGODB_DATABASE=secret_santa
       - SPRING_MAIL_HOST=smtp.strato.de
       - SPRING_MAIL_PORT=465
-      - SPRING_MAIL_USERNAME=secret-santa@mrtimeey.de
+      - SPRING_MAIL_USERNAME=no-reply@the-secret-santa.de
       - SPRING_MAIL_PROPERTIES_MAIL_SMTP_SSL_ENABLE=true
       - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH=true
       - SPRING_MAIL_PROPERTIES_MAIL_TRANSPORT_PROTOCOL=smtp
