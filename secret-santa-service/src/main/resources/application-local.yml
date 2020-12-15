@@ -8,7 +8,7 @@ spring:
   mail:
     host: smtp.strato.de
     port: 465
-    username: no-reply@the-secret-santa.de
+    username: secret-santa@mrtimeey.de
     password: ${MAIL_PASSWORD}
     properties:
       "mail.smtp.ssl.enable": true
