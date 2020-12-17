@@ -7,49 +7,11 @@
           <h1>Gruppe bearbeiten</h1>
           <p><strong>Titel:</strong> {{ currentGroup.title }}</p>
           <br>
-          <EditGroupError v-bind:participants="currentGroup.participants" v-bind:groupReleased="groupReleased"/>
-          <EditGroupParticipantList :participants="currentGroup.participants"/>
-
-          <v-form ref="form" v-model="isFormValid" v-if="addUser">
-            <v-container>
-              <v-row>
-                <v-col cols="12" sm="6">
-                  <v-text-field label="Name" :rules="rules" hide-details="auto" v-model="personName"
-                                v-bind:loading="loading"></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-text-field label="E-Mail" :rules="emailRules" hide-details="auto" v-model="personMail"
-                                v-bind:loading="loading"></v-text-field>
-                </v-col>
-              </v-row>
-            </v-container>
-            <v-container>
-              <v-btn @click="addUser = !addUser" v-bind:disabled="loading">Abbrechen</v-btn>
-              <v-btn @click="create" v-bind:disabled="!isFormValid || loading">Anlegen</v-btn>
-            </v-container>
-          </v-form>
-          <v-btn v-if="!addUser && !currentGroup.released" @click="addUser = !addUser" v-bind:disabled="loading">
-            Hinzufügen
-          </v-btn>
+          <EditGroupError v-bind:participants="currentGroup.participants ? currentGroup.participants: []" v-bind:groupReleased="groupReleased === true"/>
+          <EditGroupParticipantList :participants="currentGroup.participants ? currentGroup.participants: []"/>
+          <EditGroupAddUserForm v-bind:loading="loading" v-bind:groupReleased="groupReleased === true" v-bind:group-id="this.groupId"/>
           <br>
-          <div>
-            <br>
-            <strong>Status:</strong>
-            <v-row justify="center" align-content="center">
-              <p v-if="groupReleased">
-                <v-icon size="20px">fa-check</v-icon>
-                Gruppe informiert!
-              </p>
-              <p v-else-if="!groupReady">
-                <v-icon size="20px">fa-stop-circle</v-icon>
-                Zu wenig Teilnehmer
-              </p>
-              <p v-else>
-                <v-icon size="20px">fa-hourglass-half</v-icon>
-                Gruppe bereit
-              </p>
-            </v-row>
-          </div>
+          <EditGroupStatus v-bind:group-ready="groupReady" v-bind:group-released="groupReleased"/>
           <v-btn v-if="!groupReleased && groupReady" @click="startGroup" v-bind:disabled="loading"
                  v-bind:loading="loading" color="primary"
                  large>Start
@@ -78,31 +40,26 @@
 
 <script>
 import {baseUrl} from "@/main";
+import {bus} from "@/main";
 import EditGroupError from "@/components/edit/EditGroupError";
 import EditGroupParticipantList from "@/components/edit/EditGroupParticipantList";
+import EditGroupAddUserForm from "@/components/edit/EditGroupAddUserForm";
+import EditGroupStatus from "@/components/edit/EditGroupStatus";
 
 export default {
   name: "EditGroup",
-  components: {EditGroupParticipantList, EditGroupError},
+  components: {EditGroupStatus, EditGroupAddUserForm, EditGroupParticipantList, EditGroupError},
   props: {
     groupId: String
   },
   data: () => ({
     currentGroup: {},
     loading: false,
-    personName: "",
-    personMail: "",
-    isFormValid: false,
-    addUser: false,
-    rules: [
-      value => !!value || 'Pflichtfeld.',
-      value => (value && Object.keys(value).length >= 3) || 'Min. 3 Buchstaben',
-    ],
-    emailRules: [
-      value => !!value || 'Pflichtfeld.',
-      v => !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-Mail muss valide sein'
-    ]
   }),
+  created() {
+    bus.$on('addedUser', (user) => this.currentGroup.participants.push(user))
+    bus.$on('loading', (isLoading) => this.loading = isLoading)
+  },
   computed: {
     groupReady: function () {
       return !this.groupReleased && this.currentGroup.participants && Object.keys(this.currentGroup.participants).length > 1
@@ -112,31 +69,19 @@ export default {
     }
   },
   mounted() {
-    this.getGroup(this.groupId)
+    this.reloadGroup(this.groupId)
   },
   methods: {
-    async getGroup(groupId) {
+    async reloadGroup(groupId) {
       let response = await this.$axios.get(baseUrl + 'group/' + groupId)
       this.currentGroup = response.data
-    },
-    async create() {
-      this.loading = true
-      let data = {
-        "name": this.personName,
-        "mail": this.personMail,
-        "secretSantaGroupId": this.groupId
-      }
-      let response = await this.$axios.post(baseUrl + 'person', data)
-      this.currentGroup.participants.push(response.data)
-      this.$refs.form.reset()
-      this.loading = false
     },
     async startGroup() {
       this.loading = true
       this.addUser = false
       try {
         await this.$axios.post(baseUrl + 'group/' + this.groupId + '/release', {})
-        await this.getGroup(this.groupId);
+        await this.reloadGroup(this.groupId);
       } catch (e) {
         console.error(e)
       }
@@ -147,7 +92,7 @@ export default {
       this.addUser = false
       try {
         await this.$axios.post(baseUrl + 'group/' + this.groupId + '/resend', {})
-        await this.getGroup(this.groupId);
+        await this.reloadGroup(this.groupId);
       } catch (e) {
         console.error(e)
       }
@@ -159,7 +104,7 @@ export default {
       this.error = false
       try {
         await this.$axios.post(baseUrl + 'group/' + this.groupId + '/cancel', {})
-        await this.getGroup(this.groupId)
+        await this.reloadGroup(this.groupId)
       } catch (e) {
         console.error(e)
       }

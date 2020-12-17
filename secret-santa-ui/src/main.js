@@ -9,6 +9,9 @@ Vue.config.productionTip = false
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 Vue.prototype.$axios = axios;
 
+Vue.prototype.$eventBus =  new Vue();
+export const bus = new Vue();
+
 export const baseUrl = process.env.NODE_ENV === "production" ? 'https://' + location.host + '/api/' : 'http://localhost:8084/';
 
 new Vue({

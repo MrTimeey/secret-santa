@@ -16,7 +16,7 @@ export default {
   props: {
     participants: {
       type: Array,
-      required: true
+      required: false
     },
     groupReleased: {
       type: Boolean,
