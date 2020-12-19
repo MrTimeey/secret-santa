@@ -25,7 +25,7 @@ public class SecretSantaGroupTO extends RepresentationModel<SecretSantaGroupTO> 
 
     @NotNull(groups = OnUpdate.class)
     @Null(groups = OnCreate.class)
-    private boolean released;
+    private Boolean released;
 
     @Null(groups = OnCreate.class)
     @Builder.Default
