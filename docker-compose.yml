@@ -10,14 +10,16 @@ services:
     environment:
       - MONGODB_USERNAME=mongouser
       - MONGODB_DATABASE=secret_santa
+      - MONGODB_PASSWORD=${MONGO_PASS}
+      - MONGODB_ROOT_PASSWORD=${MONGO_ROOT_PASS}
     volumes:
       - "mongo-data:/data/db"
 
   secret-santa-service:
     build: secret-santa-service
 #   For local usage only!
-#   ports:
-#     - 8084:8080
+    ports:
+      - 8084:8080
     depends_on:
       - mongo-database
     restart: always
@@ -27,6 +29,8 @@ services:
       - SPRING_DATA_MONGODB_HOST=mongo-database
       - SPRING_DATA_MONGODB_USERNAME=mongouser
       - SPRING_DATA_MONGODB_DATABASE=secret_santa
+      - SPRING_DATA_MONGODB_PASSWORD=${MONGO_PASS}
+      - SPRING_MAIL_PASSWORD=${SPRING_MAIL_PASS}
       - SPRING_MAIL_HOST=smtp.strato.de
       - SPRING_MAIL_PORT=465
       - SPRING_MAIL_USERNAME=secret-santa@mrtimeey.de
