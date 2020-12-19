@@ -1,6 +1,6 @@
 package de.mrtimeey.secretsanta.group.rest.controller;
 
-import de.mrtimeey.secretsanta.group.rest.request.CreateGroupRequest;
+import de.mrtimeey.secretsanta.group.rest.request.OnCreate;
 import de.mrtimeey.secretsanta.group.rest.response.SecretSantaGroupTO;
 import de.mrtimeey.secretsanta.group.rest.service.GroupRestService;
 import de.mrtimeey.secretsanta.group.rest.service.ReleaseRestService;
@@ -36,7 +36,8 @@ public class GroupController {
     @PostMapping
     @ResponseStatus( HttpStatus.CREATED)
     @ResponseBody
-    public SecretSantaGroupTO createGroup(@Valid @RequestBody CreateGroupRequest createGroupRequest) {
+    @Validated(OnCreate.class)
+    public SecretSantaGroupTO createGroup(@Valid @RequestBody SecretSantaGroupTO createGroupRequest) {
             return groupRestService.createNewGroup(createGroupRequest);
 
     }

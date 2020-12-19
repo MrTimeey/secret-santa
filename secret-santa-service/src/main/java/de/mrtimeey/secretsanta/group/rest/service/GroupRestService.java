@@ -6,7 +6,6 @@ import de.mrtimeey.secretsanta.group.domain.entity.SecretSantaGroup;
 import de.mrtimeey.secretsanta.group.domain.service.GroupService;
 import de.mrtimeey.secretsanta.group.domain.service.PersonService;
 import de.mrtimeey.secretsanta.group.rest.controller.PersonController;
-import de.mrtimeey.secretsanta.group.rest.request.CreateGroupRequest;
 import de.mrtimeey.secretsanta.group.rest.response.PersonTO;
 import de.mrtimeey.secretsanta.group.rest.response.SecretSantaGroupTO;
 import de.mrtimeey.secretsanta.group.rest.utils.GroupHalUtils;
@@ -30,7 +29,7 @@ public class GroupRestService {
     private final GroupHalUtils groupHalUtils;
 
 
-    public SecretSantaGroupTO createNewGroup(CreateGroupRequest createGroupRequest) {
+    public SecretSantaGroupTO createNewGroup(SecretSantaGroupTO createGroupRequest) {
         SecretSantaGroup secretSantaGroup = groupService.createNewGroup(createGroupRequest.getTitle());
         SecretSantaGroupTO secretSantaGroupTO = SecretSantaGroupTO.fromBusinessModel(secretSantaGroup);
         return groupHalUtils.addHalLinks(secretSantaGroupTO);
