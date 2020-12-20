@@ -9,6 +9,7 @@ import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class SecretSantaGroupTO extends RepresentationModel<SecretSantaGroupTO> 
     private String id;
 
     @NotNull(groups = OnCreate.class)
+    @Size(min = 3, max = 200)
     private String title;
 
     @NotNull(groups = OnUpdate.class)

@@ -11,6 +11,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
 
 import static de.mrtimeey.secretsanta.group.rest.utils.UpdateUtils.processIfNotNull;
 
@@ -23,10 +24,12 @@ public class PersonTO extends RepresentationModel<PersonTO> {
     private String id;
 
     @NotEmpty(groups = OnCreate.class)
+    @Size(min = 3, max = 100)
     private String name;
 
     @Email(groups = OnCreate.class)
     @NotEmpty(groups = OnCreate.class)
+    @Size(min = 3, max = 100)
     private String mail;
 
     @NotEmpty(groups = OnCreate.class)

@@ -5,11 +5,11 @@
         <v-row>
           <v-col cols="12" sm="6">
             <v-text-field label="Name" :rules="rules" hide-details="auto" v-model="personName"
-                          v-bind:loading="loading"></v-text-field>
+                          v-bind:loading="loading" maxlength="100" counter></v-text-field>
           </v-col>
           <v-col cols="12" sm="6">
             <v-text-field label="E-Mail" :rules="emailRules" hide-details="auto" v-model="personMail"
-                          v-bind:loading="loading"></v-text-field>
+                          v-bind:loading="loading" maxlength="100" counter></v-text-field>
           </v-col>
         </v-row>
       </v-container>
@@ -47,6 +47,7 @@ export default {
     rules: [
       value => !!value || 'Pflichtfeld.',
       value => (value && Object.keys(value).length >= 3) || 'Min. 3 Buchstaben',
+      value => (value && Object.keys(value).length <= 100) || 'Max. 100 Buchstaben',
     ],
     emailRules: [
       value => !!value || 'Pflichtfeld.',

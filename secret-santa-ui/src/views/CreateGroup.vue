@@ -11,6 +11,8 @@
                 v-model="title"
                 @keyup.enter="create"
                 v-bind:loading="loading"
+                maxlength="200"
+                counter
             ></v-text-field>
           </v-row>
           <v-row align="center" justify="space-around">
@@ -34,8 +36,9 @@ export default {
     createdId: "",
     loading: false,
     rules: [
-      value => !!value || 'Required.',
-      value => (value && value.length >= 3) || 'Min 3 characters',
+      value => !!value || 'Pflichtfeld.',
+      value => (value && value.length >= 3) || 'Min. 3 Buchstaben',
+      value => (value && value.length <= 200) || 'Max. 200 Buchstaben',
     ],
   }),
   methods: {
