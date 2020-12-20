@@ -1,6 +1,6 @@
-<h3>Hi ${name}!</h3>
+<h3>Hi ${name?html}!</h3>
 
-<p>Leider muss ich dir mitteilen das deine Wichtel-Gruppe "${secretSantaGroupTitle}" abgebrochen wurde!</p>
+<p>Leider muss ich dir mitteilen das deine Wichtel-Gruppe "${secretSantaGroupTitle?html}" abgebrochen wurde!</p>
 <br/>
 <p>Viel Spaß, alles Liebe, alles Gute und bis zum nächsten Mal!</p>
 

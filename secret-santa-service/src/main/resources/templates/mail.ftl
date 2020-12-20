@@ -1,9 +1,9 @@
-<h3>Hi ${name}!</h3>
+<h3>Hi ${name?html}!</h3>
 <#if retry?? && retry == true >
     <p>Kurze Erinnerung:</p>
 </#if>
-<p>Du wurdest zu der Wichtel-Gruppe "${secretSantaGroupTitle}" hinzugefügt!</p>
-<p>Dein Wichtel-Partner ist <b>${targetPersonName}</b> (<a href="${targetPersonMail}" target="_blank">${targetPersonMail}</a>).</p>
+<p>Du wurdest zu der Wichtel-Gruppe "${secretSantaGroupTitle?html}" hinzugefügt!</p>
+<p>Dein Wichtel-Partner ist <b>${targetPersonName?html}</b> (<a href="${targetPersonMail?html}" target="_blank">${targetPersonMail?html}</a>).</p>
 
 <p>Viel Spaß, alles Liebe, alles Gute und bis zum nächsten Mal!</p>
 <br/>
