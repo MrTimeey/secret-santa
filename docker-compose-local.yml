@@ -4,8 +4,6 @@ services:
   mongo-database:
     ports:
       - 27017:27017
-    environment:
-      - MONGODB_PASSWORD=123456
 
   secret-santa-service:
     build: secret-santa-service
