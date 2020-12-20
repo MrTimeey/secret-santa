@@ -21,13 +21,13 @@
             <v-row justify="center">
               <v-col align="right">
                 <v-btn v-if="groupReleased" @click="cancelGroup" v-bind:disabled="loading" v-bind:loading="loading"
-                       color="error" style="width:200px;">
+                       elevation="3" style="width:200px;">
                   <span class="text-truncate" style="width:200px;">Wichteln Abbrechen</span>
                 </v-btn>
               </v-col>
               <v-col align="left" >
                 <v-btn v-if="groupReleased" @click="resendMail" v-bind:disabled="loading" v-bind:loading="loading"
-                       color="primary" style="width:200px;">
+                       elevation="3" color="primary" style="width:200px;">
                   <span class="text-truncate" style="width:200px;">Erneut verschicken</span>
                 </v-btn>
               </v-col>
