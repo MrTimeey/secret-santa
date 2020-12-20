@@ -12,7 +12,7 @@
                 @keyup.enter="create"
                 v-bind:loading="loading"
                 maxlength="200"
-                counter
+                :counter="title.length > 100"
             ></v-text-field>
           </v-row>
           <v-row align="center" justify="space-around">
