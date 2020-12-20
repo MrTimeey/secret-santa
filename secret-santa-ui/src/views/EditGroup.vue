@@ -16,16 +16,21 @@
                  v-bind:loading="loading" color="primary"
                  large>Start
           </v-btn>
+
           <v-container>
-            <v-row justify="center" class="pa-5">
+            <v-row justify="center">
+              <v-col align="right">
                 <v-btn v-if="groupReleased" @click="cancelGroup" v-bind:disabled="loading" v-bind:loading="loading"
-                       color="error"
-                >Wichteln Abbrechen
+                       color="error" style="width:200px;">
+                  <span class="text-truncate" style="width:200px;">Wichteln Abbrechen</span>
                 </v-btn>
+              </v-col>
+              <v-col align="left" >
                 <v-btn v-if="groupReleased" @click="resendMail" v-bind:disabled="loading" v-bind:loading="loading"
-                       color="primary"
-                >Erneut verschicken
+                       color="primary" style="width:200px;">
+                  <span class="text-truncate" style="width:200px;">Erneut verschicken</span>
                 </v-btn>
+              </v-col>
             </v-row>
           </v-container>
           <br>

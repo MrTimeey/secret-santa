@@ -78,6 +78,7 @@ export default {
         let response = await this.$axios.post(baseUrl + 'person', data)
         bus.$emit('addedUser', response.data)
         this.$refs.form.reset()
+        this.addition = false
       } catch (e) {
         console.error(e);
       }
