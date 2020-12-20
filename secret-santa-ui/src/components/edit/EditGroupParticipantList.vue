@@ -1,5 +1,6 @@
 <template>
   <v-container v-if="!groupEmpty">
+    <h3 class="text-center"> Teilnehmer</h3>
     <v-row v-for="participant in participants" v-bind:key="participant.id" justify="center">
       <v-col cols="12" sm="6">
         <v-text-field label="Name" hide-details v-model="participant.name" outlined

@@ -14,8 +14,18 @@
         </v-row>
       </v-container>
       <v-container>
-        <v-btn @click="addition = !addition" v-bind:disabled="loading">Abbrechen</v-btn>
-        <v-btn @click="addUser" v-bind:disabled="!isFormValid || loading">Anlegen</v-btn>
+        <v-row justify="center">
+          <v-col align="right">
+            <v-btn @click="addition = !addition" v-bind:disabled="loading" style="width:130px;">
+              <span class="text-truncate" style="width:130px;">Abbrechen</span>
+            </v-btn>
+          </v-col>
+          <v-col align="left">
+            <v-btn @click="addUser" v-bind:disabled="!isFormValid || loading" style="width:130px;">
+              <span class="text-truncate" style="width:130px;">Anlegen</span>
+            </v-btn>
+          </v-col>
+        </v-row>
       </v-container>
     </v-form>
     <v-btn v-if="!addition && !groupReleased" @click="addition = !addition" v-bind:disabled="loading">
