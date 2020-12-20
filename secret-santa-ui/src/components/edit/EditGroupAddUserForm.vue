@@ -4,12 +4,21 @@
       <v-container>
         <v-row>
           <v-col cols="12" sm="6">
-            <v-text-field label="Name" :rules="rules" hide-details="auto" v-model="personName"
-                          v-bind:loading="loading" maxlength="100" :counter="personName.length > 50"></v-text-field>
+            <v-text-field label="Name"
+                          :rules="rules"
+                          hide-details="auto"
+                          v-model="personName"
+                          v-bind:loading="loading" maxlength="100"
+                          :counter="personName? personName.length > 50 : false"></v-text-field>
           </v-col>
           <v-col cols="12" sm="6">
-            <v-text-field label="E-Mail" :rules="emailRules" hide-details="auto" v-model="personMail"
-                          v-bind:loading="loading" maxlength="100" :counter="personMail.length > 50"></v-text-field>
+            <v-text-field label="E-Mail"
+                          :rules="emailRules"
+                          hide-details="auto"
+                          v-model="personMail"
+                          v-bind:loading="loading"
+                          maxlength="100"
+                          :counter="personMail? personMail.length > 50 : false"></v-text-field>
           </v-col>
         </v-row>
       </v-container>
