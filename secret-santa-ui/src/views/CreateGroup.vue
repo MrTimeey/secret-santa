@@ -10,13 +10,13 @@
                 hide-details="auto"
                 v-model="title"
                 @keyup.enter="create"
-                v-bind:loading="loading"
+                v-bind:loading="isLoading"
                 maxlength="200"
                 :counter="title? title.length > 100 : false"
             ></v-text-field>
           </v-row>
           <v-row align="center" justify="space-around">
-            <v-btn @click="create" v-bind:disabled="title && title.length < 3 || loading">Anlegen</v-btn>
+            <v-btn @click="create" v-bind:disabled="title && title.length < 3 || isLoading">Anlegen</v-btn>
           </v-row>
         </v-col>
       </v-row>
@@ -34,7 +34,6 @@ export default {
   data: () => ({
     title: "",
     createdId: "",
-    loading: false,
     rules: [
       value => !!value || 'Pflichtfeld.',
       value => (value && value.length >= 3) || 'Min. 3 Buchstaben',
@@ -43,7 +42,7 @@ export default {
   }),
   methods: {
     async create() {
-      this.loading = true
+      this.$store.commit('setLoading', true)
       let data = {
         'title': this.title
       }

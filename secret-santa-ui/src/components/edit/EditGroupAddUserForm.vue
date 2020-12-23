@@ -8,7 +8,7 @@
                           :rules="rules"
                           hide-details="auto"
                           v-model="personName"
-                          v-bind:loading="loading" maxlength="100"
+                          v-bind:loading="isLoading" maxlength="100"
                           :counter="personName? personName.length > 50 : false"></v-text-field>
           </v-col>
           <v-col cols="12" sm="6">
@@ -16,7 +16,7 @@
                           :rules="emailRules"
                           hide-details="auto"
                           v-model="personMail"
-                          v-bind:loading="loading"
+                          :loading="isLoading"
                           maxlength="100"
                           :counter="personMail? personMail.length > 50 : false"></v-text-field>
           </v-col>
@@ -25,19 +25,19 @@
       <v-container>
         <v-row justify="center">
           <v-col align="right">
-            <v-btn @click="addition = !addition" v-bind:disabled="loading" style="width:130px;">
+            <v-btn @click="addition = !addition" v-bind:disabled="isLoading" style="width:130px;">
               <span class="text-truncate" style="width:130px;">Abbrechen</span>
             </v-btn>
           </v-col>
           <v-col align="left">
-            <v-btn @click="addUser" v-bind:disabled="!isFormValid || loading" style="width:130px;">
+            <v-btn @click="addUser" v-bind:disabled="!isFormValid || isLoading" style="width:130px;">
               <span class="text-truncate" style="width:130px;">Anlegen</span>
             </v-btn>
           </v-col>
         </v-row>
       </v-container>
     </v-form>
-    <v-btn v-if="!addition && !groupReleased" @click="addition = !addition" v-bind:disabled="loading">
+    <v-btn v-if="!addition && !groupReleased" @click="addition = !addition" v-bind:disabled="isLoading">
       Hinzufügen
     </v-btn>
   </div>
@@ -67,10 +67,6 @@ export default {
   props: {
     groupId: String,
     groupReleased: {
-      type: Boolean,
-      required: true
-    },
-    loading: {
       type: Boolean,
       required: true
     }

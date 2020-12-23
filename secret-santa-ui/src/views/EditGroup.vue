@@ -9,24 +9,24 @@
           <br>
           <EditGroupError v-bind:participants="currentGroup.participants ? currentGroup.participants: []" v-bind:groupReleased="groupReleased === true"/>
           <EditGroupParticipantList :participants="currentGroup.participants ? currentGroup.participants: []"/>
-          <EditGroupAddUserForm v-bind:loading="loading" v-bind:groupReleased="groupReleased === true" v-bind:group-id="this.groupId"/>
+          <EditGroupAddUserForm v-bind:groupReleased="groupReleased === true" v-bind:group-id="this.groupId"/>
           <br>
           <EditGroupStatus v-bind:group-ready="groupReady" v-bind:group-released="groupReleased"/>
-          <v-btn v-if="!groupReleased && groupReady" @click="startGroup" v-bind:disabled="loading"
-                 v-bind:loading="loading" color="primary"
+          <v-btn v-if="!groupReleased && groupReady" @click="startGroup" v-bind:disabled="isLoading"
+                 v-bind:loading="isLoading" color="primary"
                  large>Start
           </v-btn>
 
           <v-container>
             <v-row justify="center">
               <v-col align="right">
-                <v-btn v-if="groupReleased" @click="cancelGroup" v-bind:disabled="loading" v-bind:loading="loading"
+                <v-btn v-if="groupReleased" @click="cancelGroup" v-bind:disabled="isLoading" v-bind:loading="isLoading"
                        elevation="3" style="width:200px;">
                   <span class="text-truncate" style="width:200px;">Wichteln Abbrechen</span>
                 </v-btn>
               </v-col>
               <v-col align="left" >
-                <v-btn v-if="groupReleased" @click="resendMail" v-bind:disabled="loading" v-bind:loading="loading"
+                <v-btn v-if="groupReleased" @click="resendMail" v-bind:disabled="isLoading" v-bind:loading="isLoading"
                        elevation="3" color="primary" style="width:200px;">
                   <span class="text-truncate" style="width:200px;">Erneut verschicken</span>
                 </v-btn>
@@ -59,11 +59,9 @@ export default {
   },
   data: () => ({
     currentGroup: {},
-    loading: false,
   }),
   created() {
     bus.$on('addedUser', (user) => this.currentGroup.participants.push(user))
-    bus.$on('loading', (isLoading) => this.loading = isLoading)
   },
   computed: {
     groupReady: function () {
@@ -82,7 +80,7 @@ export default {
       this.currentGroup = response.data
     },
     async startGroup() {
-      this.loading = true
+      this.$store.commit('setLoading', true)
       this.addUser = false
       try {
         await this.$axios.post(baseUrl + 'group/' + this.groupId + '/release', {})
@@ -90,10 +88,10 @@ export default {
       } catch (e) {
         console.error(e)
       }
-      this.loading = false
+      this.$store.commit('setLoading', false)
     },
     async resendMail() {
-      this.loading = true
+      this.$store.commit('setLoading', true)
       this.addUser = false
       try {
         await this.$axios.post(baseUrl + 'group/' + this.groupId + '/resend', {})
@@ -101,10 +99,10 @@ export default {
       } catch (e) {
         console.error(e)
       }
-      this.loading = false
+      this.$store.commit('setLoading', false)
     },
     async cancelGroup() {
-      this.loading = true
+      this.$store.commit('setLoading', true)
       this.addUser = false
       this.error = false
       try {
@@ -113,7 +111,7 @@ export default {
       } catch (e) {
         console.error(e)
       }
-      this.loading = false
+      this.$store.commit('setLoading', false)
     }
   }
 }
