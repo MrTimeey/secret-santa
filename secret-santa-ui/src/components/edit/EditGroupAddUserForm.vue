@@ -65,12 +65,7 @@ export default {
     ],
   }),
   mixins: [groupMixin],
-  updated() {
-    console.log("HIER")
-    console.log(this.uniqueUserName);
-  },
   computed: {
-
     uniqueUserName() {
       if (!this.participants || this.participants.length === 0 || !this.personName) {
         return true;
@@ -81,7 +76,7 @@ export default {
       if (!this.participants || this.participants.length === 0 || !this.personMail) {
         return true;
       }
-      return !this.participants.map(p => p.mail).contains(this.personMail);
+      return !this.participants.map(p => p.mail.toLowerCase()).includes(this.personMail.toLowerCase());
     }
   },
   methods: {
