@@ -65,20 +65,31 @@ export default {
     ],
   }),
   mixins: [groupMixin],
+  updated() {
+    console.log("HIER")
+    console.log(this.uniqueUserName);
+  },
   computed: {
+
     uniqueUserName() {
-      return () => this.participants && !this.participants.map(p => p.name).includes(this.personName);
+      if (!this.participants || this.participants.length === 0 || !this.personName) {
+        return true;
+      }
+      return !this.participants.map(p => p.name.toLowerCase()).includes(this.personName.toLowerCase());
     },
     uniqueUserMail() {
-      return this.participants && this.participants.map(p => p.mail).contains(this.personMail);
+      if (!this.participants || this.participants.length === 0 || !this.personMail) {
+        return true;
+      }
+      return !this.participants.map(p => p.mail).contains(this.personMail);
     }
   },
   methods: {
     async addUser() {
       let payload = {'name': this.personName, 'mail': this.personMail}
       await this.$store.dispatch("group/addUser", payload);
-      this.$refs.form.reset()
       this.addition = false
+      this.$refs.form.reset()
     },
   }
 }
