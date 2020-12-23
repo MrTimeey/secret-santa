@@ -28,6 +28,7 @@
 <script>
 
 import router from "@/router";
+import groupMixin from "@/mixins/groupMixin";
 
 export default {
   name: "CreateGroup",
@@ -40,6 +41,7 @@ export default {
       value => (value && value.length <= 200) || 'Max. 200 Buchstaben',
     ],
   }),
+  mixins: [groupMixin],
   methods: {
     async create() {
       this.$store.commit('setLoading', true)
