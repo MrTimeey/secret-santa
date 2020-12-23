@@ -2,12 +2,18 @@ import {baseUrl} from "@/main";
 import * as axios from "axios";
 
 let state = {
-    currentGroup: {}
+    currentGroup: {},
+    groupError: false
 };
 let actions = {
     async loadGroup({commit}, id) {
-        let response = await axios.get(baseUrl + 'group/' + id)
-        commit('setGroup', response.data);
+        try {
+            let response = await axios.get(baseUrl + 'group/' + id)
+            commit('setGroup', response.data);
+        } catch (e) {
+            commit('setError', true);
+        }
+
     },
     async startGroup({commit}, id) {
         let response = await axios.post(baseUrl + 'group/' + id + '/release', {})
@@ -50,6 +56,9 @@ let actions = {
 let mutations = {
     setGroup(state, group) {
         state.currentGroup = group
+    },
+    setError(state, status) {
+        state.groupError = status
     },
     addUser(state, user) {
         state.currentGroup.participants.push(user);

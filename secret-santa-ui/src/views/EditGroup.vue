@@ -1,6 +1,6 @@
 <template>
 
-  <v-container style="max-width: 800px">
+  <v-container style="max-width: 800px" v-if="!groupError">
     <v-main>
       <v-container>
         <div class="block text-center notFound">
@@ -63,6 +63,7 @@ export default {
   created() {
     if (this.groupId) {
       this.$store.dispatch("group/loadGroup", this.groupId);
+      this.$store.state.group.groupError = false;
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -70,6 +71,12 @@ export default {
       next(vm => vm.$router.push({'name':'Home'}));
     } else {
       next();
+    }
+  },
+  computed: {
+    groupError: {
+      get() { return this.$store.state.group.groupError; },
+      set(newValue) { this.$store.commit('group/setError', newValue) }
     }
   },
   methods: {
