@@ -20,12 +20,11 @@
 </template>
 
 <script>
+import groupStateMixin from "@/mixins/groupMixin";
+
 export default {
   name: "EditGroupStatus",
-  props: {
-    groupReleased: Boolean,
-    groupReady: Boolean
-  }
+  mixins: [groupStateMixin]
 }
 </script>
 

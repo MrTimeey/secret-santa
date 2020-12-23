@@ -7,11 +7,11 @@
           <h1>Gruppe bearbeiten</h1>
           <p><strong>Titel:</strong> {{ currentGroup.title }}</p>
           <br>
-          <EditGroupError v-bind:participants="currentGroup.participants ? currentGroup.participants: []" v-bind:groupReleased="groupReleased === true"/>
-          <EditGroupParticipantList :participants="currentGroup.participants ? currentGroup.participants: []"/>
-          <EditGroupAddUserForm v-bind:groupReleased="groupReleased === true" v-bind:group-id="this.groupId"/>
+          <EditGroupError />
+          <EditGroupParticipantList />
+          <EditGroupAddUserForm />
           <br>
-          <EditGroupStatus v-bind:group-ready="groupReady" v-bind:group-released="groupReleased"/>
+          <EditGroupStatus />
           <v-btn v-if="!groupReleased && groupReady" @click="startGroup" v-bind:disabled="isLoading"
                  v-bind:loading="isLoading" color="primary"
                  large>Start
@@ -45,11 +45,11 @@
 
 <script>
 import {baseUrl} from "@/main";
-import {bus} from "@/main";
 import EditGroupError from "@/components/edit/EditGroupError";
 import EditGroupParticipantList from "@/components/edit/EditGroupParticipantList";
 import EditGroupAddUserForm from "@/components/edit/EditGroupAddUserForm";
 import EditGroupStatus from "@/components/edit/EditGroupStatus";
+import groupMixin from "@/mixins/groupMixin";
 
 export default {
   name: "EditGroup",
@@ -60,31 +60,16 @@ export default {
   data: () => ({
     currentGroup: {},
   }),
+  mixins: [groupMixin],
   created() {
-    bus.$on('addedUser', (user) => this.currentGroup.participants.push(user))
-  },
-  computed: {
-    groupReady: function () {
-      return !this.groupReleased && this.currentGroup.participants && Object.keys(this.currentGroup.participants).length > 1
-    },
-    groupReleased: function () {
-      return this.currentGroup.released
-    }
-  },
-  mounted() {
-    this.reloadGroup(this.groupId)
+    this.$store.dispatch("group/loadGroup", this.groupId);
   },
   methods: {
-    async reloadGroup(groupId) {
-      let response = await this.$axios.get(baseUrl + 'group/' + groupId)
-      this.currentGroup = response.data
-    },
     async startGroup() {
       this.$store.commit('setLoading', true)
       this.addUser = false
       try {
         await this.$axios.post(baseUrl + 'group/' + this.groupId + '/release', {})
-        await this.reloadGroup(this.groupId);
       } catch (e) {
         console.error(e)
       }

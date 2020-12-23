@@ -44,7 +44,8 @@
 </template>
 
 <script>
-import {baseUrl, bus} from "@/main";
+
+import groupMixin from "@/mixins/groupMixin";
 
 export default {
   name: "EditGroupAddUserForm",
@@ -63,30 +64,13 @@ export default {
       v => !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-Mail muss valide sein'
     ],
   }),
-
-  props: {
-    groupId: String,
-    groupReleased: {
-      type: Boolean,
-      required: true
-    }
-  },
+  mixins: [groupMixin],
 
   methods: {
     async addUser() {
-      let data = {
-        "name": this.personName,
-        "mail": this.personMail,
-        "secretSantaGroupId": this.groupId
-      }
-      try {
-        let response = await this.$axios.post(baseUrl + 'person', data)
-        bus.$emit('addedUser', response.data)
-        this.$refs.form.reset()
-        this.addition = false
-      } catch (e) {
-        console.error(e);
-      }
+      let payload = {'name': this.personName, 'mail': this.personMail}
+      await this.$store.dispatch("group/addUser", payload);
+      this.addition = false
     },
   }
 }

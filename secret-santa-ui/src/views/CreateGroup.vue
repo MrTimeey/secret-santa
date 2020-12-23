@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import {baseUrl} from "@/main";
+
 import router from "@/router";
 
 export default {
@@ -43,33 +43,14 @@ export default {
   methods: {
     async create() {
       this.$store.commit('setLoading', true)
-      let data = {
-        'title': this.title
-      }
-      let config = {
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      }
-
-      try {
-        let response = await this.$axios.post(baseUrl + "group/", data, config)
-        await router.push({name: 'EditGroup', params: {groupId: response.data.id}})
-      } catch (e) {
-        console.log(e)
-      }
-
+      await this.$store.dispatch("group/create", this.title);
+      await router.push({name: 'EditGroup', params: {groupId: this.$store.state.group.currentGroup.id}})
+      this.$store.commit('setLoading', false)
     }
   }
 }
 </script>
 
 <style scoped>
-.v-text-field {
-  width: 400px;
-}
 
-.v-btn {
-  margin-left: 1px;
-}
 </style>

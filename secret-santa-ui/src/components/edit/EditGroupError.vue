@@ -11,26 +11,17 @@
 </template>
 
 <script>
+import groupStateMixin from "@/mixins/groupMixin";
+
 export default {
   name: "EditGroupError",
-  props: {
-    participants: {
-      type: Array,
-      required: false
-    },
-    groupReleased: {
-      type: Boolean,
-      required: true
-    }
-  },
+  mixins: [groupStateMixin],
   computed: {
     containsMailFailures: function () {
-      return this.participants && this.participants
-          .filter(person => person.mailSend === false).length > 0
+      return this.$store.getters["group/errorParticipants"].length > 0
     },
     failedMails: function () {
-      return this.participants
-          .filter(person => person.mailSend === false)
+      return this.$store.getters["group/errorParticipants"]
           .map(person => person.name.concat(" (", person.mail, ")"))
           .join(', ')
     }

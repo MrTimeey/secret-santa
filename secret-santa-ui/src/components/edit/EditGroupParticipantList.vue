@@ -15,19 +15,11 @@
 </template>
 
 <script>
+import groupMixin from "@/mixins/groupMixin";
+
 export default {
   name: "EditGroupParticipantList",
-  props: {
-    participants: {
-      type: Array,
-      required: true
-    }
-  },
-  computed: {
-    groupEmpty: function () {
-      return !this.participants || Object.keys(this.participants).length === 0
-    }
-  }
+  mixins: [groupMixin],
 }
 </script>
 
