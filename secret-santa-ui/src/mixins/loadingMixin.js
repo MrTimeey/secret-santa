@@ -5,9 +5,9 @@ export default {
             set(newValue) { this.$store.commit('setLoading', newValue) }
         }
     },
-    /*created: function () {
-        if (this.$store) {
+    created: function () {
+        if (this.$store && this.$store.state.isLoading) {
             this.$store.commit('setLoading', false)
         }
-    }*/
+    }
 }

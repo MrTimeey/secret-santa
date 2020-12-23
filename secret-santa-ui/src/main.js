@@ -11,6 +11,12 @@ Vue.mixin(loadingMixin);
 
 export const baseUrl = process.env.NODE_ENV === "production" ? 'https://' + location.host + '/api/' : 'http://localhost:8084/';
 
+Vue.directive('focus', {
+  inserted: function (el) {
+    el.focus();
+  }
+})
+
 new Vue({
   router,
   vuetify,

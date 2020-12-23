@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    <v-container fill-height grid-list-md>
+    <v-container fill-height grid-list-md v-focus>
       <v-row justify="center" align="center">
         <v-col cols="12" sm="4">
           <v-row align="center" justify="space-around">
@@ -47,7 +47,7 @@ export default {
       await router.push({name: 'EditGroup', params: {groupId: this.$store.state.group.currentGroup.id}})
       this.$store.commit('setLoading', false)
     }
-  }
+  },
 }
 </script>
 
