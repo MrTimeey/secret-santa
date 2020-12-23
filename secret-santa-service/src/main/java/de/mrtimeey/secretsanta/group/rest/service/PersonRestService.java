@@ -32,6 +32,10 @@ public class PersonRestService {
                 .map(personHalUtils::addLinks);
     }
 
+    public boolean uniquePerson(PersonTO personTO) {
+        return personService.uniquePerson(personTO.getName(), personTO.getMail());
+    }
+
     public Optional<PersonTO> updatePerson(PersonTO personTO) {
         return personService.findById(personTO.getId())
                 .map(personTO::writeValuesToBusinessModel)

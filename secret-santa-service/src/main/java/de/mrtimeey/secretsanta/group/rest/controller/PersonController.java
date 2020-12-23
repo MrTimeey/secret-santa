@@ -38,6 +38,9 @@ public class PersonController {
         if (!groupRestService.groupExisting(secretSantaGroupId) || groupRestService.isReleased(secretSantaGroupId)) {
             return ResponseEntity.badRequest().build();
         }
+        if (!personRestService.uniquePerson(personTO)) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(personRestService.create(personTO));
     }
 

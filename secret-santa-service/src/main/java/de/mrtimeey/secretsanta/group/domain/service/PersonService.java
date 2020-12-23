@@ -31,6 +31,24 @@ public class PersonService {
         return personRepository.findById(personId);
     }
 
+    public boolean uniquePerson(String name, String mail) {
+        if (personRepository.findFirstByName(name).isPresent()) {
+            return false;
+        }
+        if (personRepository.findFirstByMail(mail).isPresent()) {
+            return false;
+        }
+        return true;
+    }
+
+    public Optional<Person> findFirstByName(String name) {
+        return personRepository.findFirstByName(name);
+    }
+
+    public Optional<Person> findFirstByMail(String mail) {
+        return personRepository.findFirstByMail(mail);
+    }
+
     public List<Person> getParticipants(String groupId) {
         return personRepository.findAllBySecretSantaGroupId(groupId);
     }
