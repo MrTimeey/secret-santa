@@ -61,7 +61,16 @@ export default {
   }),
   mixins: [groupMixin],
   created() {
-    this.$store.dispatch("group/loadGroup", this.groupId);
+    if (this.groupId) {
+      this.$store.dispatch("group/loadGroup", this.groupId);
+    }
+  },
+  beforeRouteEnter(to, from, next) {
+    if (!to.params.groupId) {
+      next(vm => vm.$router.push({'name':'Home'}));
+    } else {
+      next();
+    }
   },
   methods: {
     async startGroup() {
