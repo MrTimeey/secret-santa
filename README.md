@@ -40,3 +40,8 @@ npm --prefix secret-santa-ui/ install
 ```shell
 npm --prefix secret-santa-ui/ run serve
 ```
+### Backend
+1. Start backend standalone via docker-compose 
+```shell
+docker-compose --file docker-compose.yml --file docker-compose-local.yml up secret-santa-service
+```
