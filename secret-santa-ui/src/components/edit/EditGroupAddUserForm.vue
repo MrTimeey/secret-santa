@@ -5,7 +5,7 @@
         <v-row>
           <v-col cols="12" sm="6">
             <v-text-field label="Name"
-                          :rules="rules"
+                          :rules="this.rules.concat((this.uniqueUserName === true)  || 'Name muss eindeutig sein')"
                           hide-details="auto"
                           v-model="personName"
                           v-bind:loading="isLoading" maxlength="100"
@@ -13,7 +13,7 @@
           </v-col>
           <v-col cols="12" sm="6">
             <v-text-field label="E-Mail"
-                          :rules="emailRules"
+                          :rules="emailRules.concat((this.uniqueUserMail === true) || 'Mail muss eindeutig sein')"
                           hide-details="auto"
                           v-model="personMail"
                           :loading="isLoading"
@@ -65,11 +65,19 @@ export default {
     ],
   }),
   mixins: [groupMixin],
-
+  computed: {
+    uniqueUserName() {
+      return () => this.participants && !this.participants.map(p => p.name).includes(this.personName);
+    },
+    uniqueUserMail() {
+      return this.participants && this.participants.map(p => p.mail).contains(this.personMail);
+    }
+  },
   methods: {
     async addUser() {
       let payload = {'name': this.personName, 'mail': this.personMail}
       await this.$store.dispatch("group/addUser", payload);
+      this.$refs.form.reset()
       this.addition = false
     },
   }
