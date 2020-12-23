@@ -48,6 +48,7 @@ export default {
       this.$store.commit('setLoading', false)
     }
   },
+
 }
 </script>
 

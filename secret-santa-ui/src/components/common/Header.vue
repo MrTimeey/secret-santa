@@ -9,9 +9,15 @@
       </router-link>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
-        <v-btn class="text-uppercase grey--text" text v-bind:to="{name:'Home'}">Home</v-btn>
-        <v-btn class="text-uppercase grey--text" text v-bind:to="{name:'CreateGroup'}">Start</v-btn>
-        <v-btn class="text-uppercase grey--text" text v-bind:to="{name:'Imprint'}">Impressum</v-btn>
+        <v-btn class="text-uppercase grey--text" text v-bind:to="{name:'Home'}">{{ homeText }}</v-btn>
+        <v-btn class="text-uppercase grey--text" text v-bind:to="{name:'CreateGroup'}">{{ createText }}</v-btn>
+        <v-btn class="text-uppercase grey--text"
+               text
+               v-bind:to="{name:'EditGroup', params: {'groupId': currentGroupId}}"
+               :style="!groupLoaded? 'text-decoration: line-through;':''"
+               :disabled="!groupLoaded">
+          {{ editText }}</v-btn>
+        <v-btn class="text-uppercase grey--text" text v-bind:to="{name:'Imprint'}">{{ imprintText }}</v-btn>
       </v-toolbar-items>
 
       <div class="hidden-sm-and-up">
@@ -21,13 +27,22 @@
           </template>
           <v-list class="responsiveMenu">
             <v-list-item>
-              <v-btn class="text-uppercase grey--text" text v-bind:to="{name:'Home'}">Home</v-btn>
+              <v-btn class="text-uppercase grey--text" text v-bind:to="{name:'Home'}">{{ homeText }}</v-btn>
             </v-list-item>
             <v-list-item>
-              <v-btn class="text-uppercase grey--text" text v-bind:to="{name:'CreateGroup'}">Start</v-btn>
+              <v-btn class="text-uppercase grey--text" text v-bind:to="{name:'CreateGroup'}">{{ createText }}</v-btn>
             </v-list-item>
             <v-list-item>
-              <v-btn class="text-uppercase grey--text" text v-bind:to="{name:'Imprint'}">Impressum</v-btn>
+              <v-btn class="text-uppercase grey--text"
+                     text
+                     v-bind:to="{name:'EditGroup',
+                     params: {'groupId': currentGroupId}}"
+                     :disabled="groupLoaded">
+                {{ editText }}
+              </v-btn>
+            </v-list-item>
+            <v-list-item>
+              <v-btn class="text-uppercase grey--text" text v-bind:to="{name:'Imprint'}">{{ imprintText }}</v-btn>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -37,8 +52,17 @@
 </template>
 
 <script>
+import groupMixin from "@/mixins/groupMixin";
+
 export default {
-  name: "Header"
+  name: "Header",
+  data: () => ({
+    "homeText": "Startseite",
+    "createText": "Erstellen",
+    "editText": "Bearbeiten",
+    "imprintText": "Impressum",
+  }),
+  mixins: [groupMixin],
 }
 </script>
 

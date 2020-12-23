@@ -1,5 +1,6 @@
 package de.mrtimeey.secretsanta.group.rest.controller;
 
+import de.mrtimeey.secretsanta.group.domain.entity.SecretSantaGroup;
 import de.mrtimeey.secretsanta.group.rest.request.OnCreate;
 import de.mrtimeey.secretsanta.group.rest.response.SecretSantaGroupTO;
 import de.mrtimeey.secretsanta.group.rest.service.GroupRestService;
@@ -50,31 +51,31 @@ public class GroupController {
     }
 
     @PostMapping(value = "/{groupId}/resend")
-    public ResponseEntity<Void> resendMail(@PathVariable String groupId) {
+    public ResponseEntity<SecretSantaGroupTO> resendMail(@PathVariable String groupId) {
         if (!groupRestService.isReleased(groupId)) {
             return ResponseEntity.badRequest().build();
         }
         releaseRestService.resendMail(groupId);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return getGroup(groupId);
     }
 
     @PostMapping(value = "/{groupId}/cancel")
-    public ResponseEntity<Void> cancelGroup(@PathVariable String groupId) {
+    public ResponseEntity<SecretSantaGroupTO> cancelGroup(@PathVariable String groupId) {
         if (!groupRestService.isReleased(groupId)) {
             return ResponseEntity.badRequest().build();
         }
         releaseRestService.cancelGroup(groupId);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return getGroup(groupId);
     }
 
     @PostMapping(value = "/{groupId}/release")
-    public ResponseEntity<Void> releaseGroup(@PathVariable String groupId) {
+    public ResponseEntity<SecretSantaGroupTO> releaseGroup(@PathVariable String groupId) {
         if (groupRestService.isReleased(groupId)) {
             return ResponseEntity.badRequest().build();
         }
         groupRestService.createSecretSantaPairs(groupId);
         releaseRestService.release(groupId);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return getGroup(groupId);
     }
 
     @GetMapping(value = "/{groupId}/pairs")

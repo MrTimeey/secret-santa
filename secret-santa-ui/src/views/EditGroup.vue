@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import {baseUrl} from "@/main";
 import EditGroupError from "@/components/edit/EditGroupError";
 import EditGroupParticipantList from "@/components/edit/EditGroupParticipantList";
 import EditGroupAddUserForm from "@/components/edit/EditGroupAddUserForm";
@@ -67,35 +66,20 @@ export default {
   methods: {
     async startGroup() {
       this.$store.commit('setLoading', true)
-      this.addUser = false
-      try {
-        await this.$axios.post(baseUrl + 'group/' + this.groupId + '/release', {})
-      } catch (e) {
-        console.error(e)
-      }
+      await this.$store.dispatch('group/startGroup', this.groupId);
       this.$store.commit('setLoading', false)
     },
     async resendMail() {
       this.$store.commit('setLoading', true)
       this.addUser = false
-      try {
-        await this.$axios.post(baseUrl + 'group/' + this.groupId + '/resend', {})
-        await this.reloadGroup(this.groupId);
-      } catch (e) {
-        console.error(e)
-      }
+      await this.$store.dispatch('group/resendMail', this.groupId)
       this.$store.commit('setLoading', false)
     },
     async cancelGroup() {
       this.$store.commit('setLoading', true)
       this.addUser = false
       this.error = false
-      try {
-        await this.$axios.post(baseUrl + 'group/' + this.groupId + '/cancel', {})
-        await this.reloadGroup(this.groupId)
-      } catch (e) {
-        console.error(e)
-      }
+      await this.$store.dispatch('group/cancelGroup', this.groupId)
       this.$store.commit('setLoading', false)
     }
   }

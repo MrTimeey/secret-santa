@@ -26,7 +26,7 @@ const routes = [
     component: CreateGroup
   },
   {
-    path: '/editGroup/:groupId',
+    path: '/editGroup/:groupId?',
     name: 'EditGroup',
     props: true,
     component: EditGroup

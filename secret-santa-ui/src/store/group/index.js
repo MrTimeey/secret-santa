@@ -9,6 +9,18 @@ let actions = {
         let response = await axios.get(baseUrl + 'group/' + id)
         commit('setGroup', response.data);
     },
+    async startGroup({commit}, id) {
+        let response = await axios.post(baseUrl + 'group/' + id + '/release', {})
+        commit('setGroup', response.data);
+    },
+    async cancelGroup({commit}, id) {
+        let response = await axios.post(baseUrl + 'group/' + id + '/cancel', {})
+        commit('setGroup', response.data);
+    },
+    async resendMail({commit}, id) {
+        let response = await axios.post(baseUrl + 'group/' + id + '/resend', {})
+        commit('setGroup', response.data);
+    },
     async create({commit}, payload) {
         let body = {
             'title': payload
