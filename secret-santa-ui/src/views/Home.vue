@@ -11,6 +11,12 @@
           <br>
           <p><b>Hier gehts <router-link v-bind:to="{name:'CreateGroup'}">los</router-link>!</b></p>
         </div>
+        <br>
+        <br>
+        <v-switch
+            v-model="darkMode"
+            label="Dark-Mode"
+        ></v-switch>
       </div>
     </v-container>
   </v-main>
@@ -21,5 +27,13 @@
 
 export default {
   name: 'Home',
+  computed: {
+    darkMode: {
+      get() { return this.$vuetify.theme.dark },
+      set(newValue) {
+        this.$vuetify.theme.dark = newValue
+      }
+    }
+  }
 }
 </script>

@@ -9,12 +9,12 @@ Vue.prototype.$axios = axios;
 
 export default new Vuex.Store({
     state: {
-        isLoading: false
+        isLoading: false,
     },
     mutations: {
         setLoading(state, newValue) {
             state.isLoading = newValue
-        }
+        },
     },
     actions: {},
     modules: {

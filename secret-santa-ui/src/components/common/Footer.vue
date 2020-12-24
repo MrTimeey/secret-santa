@@ -1,8 +1,8 @@
 <template>
   <v-container grid-list-md>
     <v-footer padless>
-      <v-row style="background-color: white" justify="center" align="center">
-        <v-card flat class="text-center">
+      <v-row justify="center" align="center" :style="backColour">
+        <v-card flat class="text-center" :style="backColour">
           <v-card-text style="padding: 5px">
             <v-btn v-for="link in links" :key="link.icon" class="mx-4" icon>
               <a :href="link.url" target="_blank">
@@ -32,7 +32,12 @@ export default {
       {icon: "fab fa-twitter", url: "https://twitter.com/tim_siegler"},
       {icon: "fab fa-xing", url: "https://www.xing.com/profile/Tim_Siegler3"}
     ]
-  })
+  }),
+  computed: {
+    backColour() {
+      return this.$vuetify.theme.dark === true ? 'background-color:' : 'background-color: white';
+    }
+  }
 }
 </script>
 

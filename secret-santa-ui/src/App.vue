@@ -1,13 +1,13 @@
 <template>
 
-  <v-app class="grey lighten-4">
-    <v-app-bar flat app color="white">
+  <v-app class="grey lighten-4" >
+    <v-app-bar flat app :style="backColour">
       <Header/>
     </v-app-bar>
     <v-main>
       <router-view></router-view>
     </v-main>
-    <v-footer app flat color="white">
+    <v-footer app flat :style="backColour">
       <Footer />
     </v-footer>
   </v-app>
@@ -26,5 +26,10 @@ export default {
     Footer,
     Header
   },
+  computed: {
+    backColour() {
+      return this.$vuetify.theme.dark === true ? 'background-color: ' : 'background-color: white';
+    }
+  }
 };
 </script>
