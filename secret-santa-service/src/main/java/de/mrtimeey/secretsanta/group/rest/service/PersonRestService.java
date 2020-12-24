@@ -33,10 +33,11 @@ public class PersonRestService {
     }
 
     public boolean uniquePerson(PersonTO personTO) {
-        return personService.uniquePerson(personTO.getName(), personTO.getMail());
+        return personService.uniquePerson(personTO.getSecretSantaGroupId(), personTO.getName(), personTO.getMail());
     }
 
     public Optional<PersonTO> updatePerson(PersonTO personTO) {
+        // TODO check for unique name/mail
         return personService.findById(personTO.getId())
                 .map(personTO::writeValuesToBusinessModel)
                 .map(personService::save)

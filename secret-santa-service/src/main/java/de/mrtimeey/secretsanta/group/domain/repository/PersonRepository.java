@@ -12,7 +12,7 @@ public interface PersonRepository extends MongoRepository<Person, String> {
 
     List<Person> findAllBySecretSantaGroupId(String secretSantaGroupId);
 
-    Optional<Person> findFirstByName(String name);
+    boolean existsByNameAndSecretSantaGroupId(String name, String secretSantaGroupId);
 
-    Optional<Person> findFirstByMail(String mail);
+    boolean existsByMailAndSecretSantaGroupId(String mail, String secretSantaGroupId);
 }

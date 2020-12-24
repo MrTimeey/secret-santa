@@ -2,10 +2,14 @@ version: '3'
 
 services:
   mongo-database:
+    environment:
+      - MONGODB_PASSWORD=123456
     ports:
       - 27017:27017
 
   secret-santa-service:
     build: secret-santa-service
+    environment:
+      - SPRING_DATA_MONGODB_PASSWORD=123456
     ports:
       - 8084:8080
