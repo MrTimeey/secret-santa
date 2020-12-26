@@ -15,7 +15,7 @@ SPRING_MAIL_PASS=...
 ```
 2. Start mongo db via docker-compose
 ```shell
-docker-compose --file docker-compose.yml --file docker-compose-local.yml up mongo-database
+docker-compose --file docker-compose.yml --file docker-compose-local.yml up -d mongo-database
 ```
 3. Run maven clean install
 ```shell

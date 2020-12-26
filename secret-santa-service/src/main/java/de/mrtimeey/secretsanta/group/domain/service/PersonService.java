@@ -31,22 +31,8 @@ public class PersonService {
         return personRepository.findById(personId);
     }
 
-    public boolean uniquePerson(String name, String mail) {
-        if (personRepository.findFirstByName(name).isPresent()) {
-            return false;
-        }
-        if (personRepository.findFirstByMail(mail).isPresent()) {
-            return false;
-        }
-        return true;
-    }
-
-    public Optional<Person> findFirstByName(String name) {
-        return personRepository.findFirstByName(name);
-    }
-
-    public Optional<Person> findFirstByMail(String mail) {
-        return personRepository.findFirstByMail(mail);
+    public boolean uniquePerson(String secretSantaGroupId, String name, String mail) {
+        return !(personRepository.existsByNameAndSecretSantaGroupId(name, secretSantaGroupId) || personRepository.existsByMailAndSecretSantaGroupId(mail, secretSantaGroupId));
     }
 
     public List<Person> getParticipants(String groupId) {
@@ -59,7 +45,6 @@ public class PersonService {
             pair.getFirst().setTargetPerson(pair.getSecond().getId());
             this.save(pair.getFirst());
         });
-
     }
 
     private List<Pair<Person, Person>> getRandomPairsForGroup(String groupId) {
