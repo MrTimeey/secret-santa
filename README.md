@@ -33,15 +33,27 @@ java -Dspring.profiles.active=local --MONGODB_PASSWORD=<pass> --MAIL_PASSWORD=6w
 
 ### Frontend
 1. Install dependencies
+
 ```shell
 npm --prefix secret-santa-ui/ install
 ```
+
 2. Start application
+
 ```shell
 npm --prefix secret-santa-ui/ run serve
 ```
-### Backend
-1. Start backend standalone via docker-compose 
+
+### Backend standalone
+
+1. Start backend standalone via docker-compose
+
 ```shell
 docker-compose --file docker-compose.yml --file docker-compose-local.yml up secret-santa-service
 ```
+
+## Maven profiles
+
+| Profile       | Description   |
+| ------------- |:-------------:|
+| mutationTest  | Run mutation tests with [pitest](https://pitest.org/). Report is generated in target/pit-report. | 
