@@ -16,6 +16,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
+          dockerfile: ./secret-santa-ui/Dockerfile
+          repository: mrtimeey/secret-santa/secret-santa-ui
           tag_with_ref: true
   push_backend_to_registry:
     name: Push backend Docker image
