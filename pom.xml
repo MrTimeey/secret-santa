@@ -11,7 +11,6 @@
 	<packaging>pom</packaging>
 	
 	<modules>
-		<!--<module>secret-santa-frontend</module>-->
 		<module>secret-santa-service</module>
 	</modules>
 

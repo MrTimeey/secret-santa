@@ -1,5 +1,6 @@
 package de.mrtimeey.secretsanta.group.domain.service;
 
+import de.mrtimeey.secretsanta.base.BaseTest;
 import de.mrtimeey.secretsanta.group.domain.repository.PersonRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,7 +13,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class PersonServiceTest {
+public class PersonServiceTest implements BaseTest {
 
     private PersonService personService;
     private PersonRepository personRepository;
