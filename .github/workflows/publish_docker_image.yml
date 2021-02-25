@@ -16,7 +16,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          repository: mrtimeey/secret-santa/secret-santa-ui
+          dockerfile: ./secret-santa-ui/Dockerfile
           tag_with_ref: true
   push_backend_to_registry:
     name: Push Docker image to GitHub Packages
@@ -26,10 +26,10 @@ jobs:
         uses: actions/checkout@v2
       - name: Push to GitHub Packages
         uses: docker/build-push-action@v1
-        working-directory: ./secret-santa-service
         with:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
+          dockerfile: ./secret-santa-service/Dockerfile
           repository: mrtimeey/secret-santa/secret-santa-service
           tag_with_ref: true
