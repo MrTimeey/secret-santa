@@ -4,7 +4,8 @@ jobs:
   build-and-test-frontend:
     runs-on: ubuntu-latest
     name: Build and test
-    working-directory: secret-santa-ui
+    env:
+        working-directory: ./secret-santa-ui
     steps:
       - uses: actions/checkout@v2
       - uses: bahmutov/npm-install@v1
