@@ -3,12 +3,21 @@ on: [push]
 jobs:
   build-and-test-frontend:
     runs-on: ubuntu-latest
-    name: Build and test
-    env:
-        working-directory: ./secret-santa-ui
     steps:
-      - uses: actions/checkout@v2
-      - uses: bahmutov/npm-install@v1
-        working-directory: ${{env.working-directory}}
-      - run: npm t
-        working-directory: ${{env.working-directory}}
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Set Node.js 10.x
+      uses: actions/setup-node@master
+      with:
+        version: 12.x
+
+    - name: Install dependencies
+      working-directory: ./secret-santa-ui
+      run: |
+        npm install
+
+    - name: Run lint
+      working-directory: ./secret-santa-ui
+      run: |
+        npm run lint
