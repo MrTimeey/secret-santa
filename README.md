@@ -1,4 +1,4 @@
-# Secret Santa [![CI-Build](https://github.com/MrTimeey/secret-santa/actions/workflows/ci-build.yml/badge.svg)](https://github.com/MrTimeey/secret-santa/actions/workflows/ci-build.yml)
+# Secret Santa [![CI-Build](https://github.com/MrTimeey/secret-santa/actions/workflows/ci-build.yml/badge.svg)](https://github.com/MrTimeey/secret-santa/actions/workflows/ci-build.yml) [![Publish Docker image](https://github.com/MrTimeey/secret-santa/actions/workflows/publish_docker_image.yml/badge.svg)](https://github.com/MrTimeey/secret-santa/actions/workflows/publish_docker_image.yml)
 
 The-Secret-Santa should help groups to organize their secret-santa groups while they can't meet in person. 
 Besides that it's a learning project for various technologies.
