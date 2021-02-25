@@ -1,4 +1,4 @@
-name: main
+name: CI-Build
 on: [push]
 jobs:
   build-and-test-frontend:
