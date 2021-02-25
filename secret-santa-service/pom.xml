@@ -162,17 +162,6 @@
 
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>integrationTest</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <test-tags>UNIT,INTEGRATION</test-tags>
-            </properties>
-        </profile>
-    </profiles>
 
     <build>
         <plugins>
@@ -226,6 +215,15 @@
     </build>
 
     <profiles>
+        <profile>
+            <id>integrationTest</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <test-tags>UNIT,INTEGRATION</test-tags>
+            </properties>
+        </profile>
         <profile>
             <id>mutationTest</id>
             <activation>
