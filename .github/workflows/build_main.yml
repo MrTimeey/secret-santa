@@ -8,5 +8,8 @@ jobs:
         working-directory: ./secret-santa-ui
     steps:
       - uses: actions/checkout@v2
+        working-directory: ${{env.working-directory}}
       - uses: bahmutov/npm-install@v1
+        working-directory: ${{env.working-directory}}
       - run: npm t
+        working-directory: ${{env.working-directory}}
