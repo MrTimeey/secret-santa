@@ -5,7 +5,7 @@ COPY src /build/src/
 
 WORKDIR /build
 
-RUN mvn install -DskipTests
+RUN mvn install
 
 FROM adoptopenjdk/openjdk11
 VOLUME /tmp
