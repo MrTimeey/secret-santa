@@ -1,0 +1,35 @@
+name: Publish Docker image
+on:
+  release:
+    types: [published]
+jobs:
+  push_frontend_to_registry:
+    name: Push Docker image to GitHub Packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Push to GitHub Packages
+        uses: docker/build-push-action@v1
+        working-directory: ./secret-santa-ui
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          repository: mrtimeey/secret-santa/secret-santa-ui
+          tag_with_ref: true
+  push_backend_to_registry:
+    name: Push Docker image to GitHub Packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Push to GitHub Packages
+        uses: docker/build-push-action@v1
+        working-directory: ./secret-santa-service
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          repository: mrtimeey/secret-santa/secret-santa-service
+          tag_with_ref: true
